@@ -1,0 +1,33 @@
+:root{--achter:#f2f5fa;--tekst:#111827;--zacht:#5b6472;--kaart:#ffffff;--blauw:#0b5fd6;--rood:#d4172a;--waarschuwing:#fff4d6;--waarschuwing-tekst:#6b4a00}
+@media (prefers-color-scheme:dark){:root{--achter:#0f141b;--tekst:#eef2f7;--zacht:#a3adbb;--kaart:#1a212b;--waarschuwing:#3a2f12;--waarschuwing-tekst:#ffd98a}}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--achter);color:var(--tekst);font:17px/1.4 -apple-system,system-ui,sans-serif}
+body{display:flex;flex-direction:column;padding:env(safe-area-inset-top) 16px env(safe-area-inset-bottom)}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+h1{font-size:1.1rem;margin:0}
+.icoon{font-size:1.6rem;background:none;border:0;color:var(--tekst);padding:6px 10px}
+main{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.label{margin:8px 0 0;font-weight:600;color:var(--zacht)}
+.bord{width:min(70vw,260px);aspect-ratio:1;border-radius:50%;background:#fff;border:clamp(14px,4vw,22px) solid var(--rood);display:flex;align-items:center;justify-content:center;margin:8px 0}
+#limiet{color:#111;font-weight:800;font-size:clamp(64px,22vw,110px);font-variant-numeric:tabular-nums}
+.weg{font-weight:600;min-height:1.4em;margin:4px 0 0}
+.status{color:var(--zacht);margin:0;min-height:1.4em}
+.hint{color:var(--zacht);font-size:.9rem}
+.banners p{background:var(--waarschuwing);color:var(--waarschuwing-tekst);border-radius:10px;padding:10px 12px;margin:6px 0;font-size:.95rem}
+footer{padding:12px 0 16px}
+#knop{width:100%;font-size:1.4rem;font-weight:700;padding:16px;border-radius:14px;border:0;background:var(--blauw);color:#fff}
+#knop.aan{background:var(--rood)}
+#knop:disabled{opacity:.5}
+dialog{width:min(100vw - 16px,560px);max-height:90vh;border:0;border-radius:16px;padding:0 16px 16px;background:var(--kaart);color:var(--tekst)}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+.kop{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--kaart);padding:12px 0}
+.kop h2{margin:0;font-size:1.2rem}
+.tekstknop{background:none;border:0;color:var(--blauw);font-size:1rem;font-weight:600}
+section{border-top:1px solid rgba(127,127,127,.25);padding:8px 0}
+h3{font-size:1rem;margin:8px 0}
+.rij{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 0}
+select{font-size:1rem}
+section button{display:block;width:100%;margin:8px 0;padding:12px;border-radius:10px;border:0;background:var(--blauw);color:#fff;font-size:1rem}
+section button.secundair{background:transparent;color:var(--blauw);border:1px solid var(--blauw)}
+.klein{font-size:.85rem;color:var(--zacht)}
+a{color:var(--blauw)}

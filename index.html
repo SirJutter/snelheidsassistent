@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b5fd6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Snelheid">
+<title>Snelheidsassistent</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Snelheidsassistent</h1>
+  <button id="instellingen-open" class="icoon" aria-label="Instellingen">⚙︎</button>
+</header>
+<main>
+  <p class="label">Maximumsnelheid</p>
+  <div class="bord"><span id="limiet" aria-live="polite">–</span></div>
+  <p id="weg" class="weg"></p>
+  <p id="status" class="status" role="status">Kaart laden…</p>
+  <div id="banners" class="banners"></div>
+  <p id="hint" class="hint"></p>
+</main>
+<footer><button id="knop" disabled>Aan</button></footer>
+
+<dialog id="instellingen">
+  <form method="dialog" class="kop"><h2>Instellingen</h2><button id="instellingen-dicht" class="tekstknop">Gereed</button></form>
+  <section>
+    <h3>Geluid</h3>
+    <label class="rij"><span>Wijzigingen uitspreken</span><input type="checkbox" id="spraak"></label>
+    <label class="rij"><span>Voorbereiding autoradio</span>
+      <select id="voorbereiding"><option value="0">Geen</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option></select></label>
+    <label class="rij"><span>Audiotype (Opel-test)</span>
+      <select id="audiotype"><option value="auto">Automatisch</option><option value="playback">Afspelen</option><option value="transient">Korte melding</option></select></label>
+    <button id="stemtest" type="button">Stemtest (stilstaand)</button>
+    <p id="stemtest-status" class="klein"></p>
+    <label class="rij"><span>Wat hoorde je zelf?</span>
+      <select id="gehoord"><option value="">Nog niet beoordeeld</option><option value="volledig_auto">Alles volledig via de Opel</option><option value="begin_mist">Begin van een zin ontbrak</option><option value="alleen_iphone">Alleen via de iPhone</option><option value="niets">Niets hoorbaar</option><option value="radio_bleef">Radio bleef spelen, stem niet hoorbaar</option></select></label>
+  </section>
+  <section>
+    <h3>Offline kaart</h3>
+    <p id="kaart-status" class="klein">Kaartstatus laden…</p>
+    <button id="download" type="button">Heel Nederland op deze iPhone zetten (193 MB, via wifi)</button>
+    <button id="wis-kaart" type="button" class="secundair">Opgeslagen kaart verwijderen</button>
+  </section>
+  <section>
+    <h3>Proeflog</h3>
+    <p class="klein">Het proeflog blijft op deze iPhone tot je het zelf deelt. Het bevat geen coördinaten of wegnamen.</p>
+    <button id="deel-log" type="button" class="secundair">Deel proeflog</button>
+  </section>
+  <section>
+    <h3>Over</h3>
+    <p class="klein">Offline kaart Nederland, momentopname 1 oktober 2026 (Librescoot). Kaartgegevens © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-bijdragers</a>, ODbL. Wegkoppeling: Valhalla 3.9.0 (MIT) als WebAssembly via valhalla-wasm (MIT). Tijdelijke borden en matrixborden ontbreken. Volg altijd de verkeersborden.</p>
+    <p class="klein" id="versie"></p>
+  </section>
+</dialog>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>
