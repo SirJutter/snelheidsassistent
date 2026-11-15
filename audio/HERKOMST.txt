@@ -1,0 +1,5 @@
+Gegenereerd op 15 november 2026 met eSpeak NG 1.52.0, Nederlandse synthetische stem.
+Bronprogramma: https://github.com/espeak-ng/espeak-ng (GPL-3.0-or-later).
+Er zijn geen Apple-systeemstemmen of menselijke stemopnamen verspreid.
+De app bevat alleen de gegenereerde audio van de eigen meldingsteksten, niet de TTS-engine.
+Dit is een eenvoudige proefstem voor de media-afspeelroute in de Opel.

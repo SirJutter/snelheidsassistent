@@ -30,11 +30,14 @@
   <form method="dialog" class="kop"><h2>Instellingen</h2><button id="instellingen-dicht" class="tekstknop">Gereed</button></form>
   <section>
     <h3>Geluid</h3>
+    <label class="rij"><span>Stem afspelen via</span>
+      <select id="spraaktechniek"><option value="audio">Geluidsbestanden (Opel-proef)</option><option value="browser">Browserspraak (vorige versie)</option></select></label>
+    <p class="klein">Geluidsbestanden gebruiken gewone media-audio. De proefstem klinkt anders. Test eerst stilstaand via Bluetooth-audio/media.</p>
     <label class="rij"><span>Wijzigingen uitspreken</span><input type="checkbox" id="spraak"></label>
     <label class="rij"><span>Voorbereiding autoradio</span>
       <select id="voorbereiding"><option value="0">Geen</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option></select></label>
     <label class="rij"><span>Audiotype (Opel-test)</span>
-      <select id="audiotype"><option value="auto">Automatisch</option><option value="playback">Afspelen</option><option value="transient">Korte melding</option></select></label>
+      <select id="audiotype"><option value="auto">Automatisch</option><option value="playback">Afspelen</option><option value="transient">Omgevingsgeluid (vergelijking)</option></select></label>
     <button id="stemtest" type="button">Stemtest (stilstaand)</button>
     <p id="stemtest-status" class="klein"></p>
     <label class="rij"><span>Wat hoorde je zelf?</span>
@@ -48,7 +51,7 @@
   </section>
   <section>
     <h3>Proeflog</h3>
-    <p class="klein">Het proeflog blijft op deze iPhone tot je het zelf deelt. Het bevat geen coördinaten of wegnamen.</p>
+    <p class="klein" id="log-opslag">Blijvende proeflogopslag openen…</p>
     <button id="deel-log" type="button" class="secundair">Deel proeflog</button>
   </section>
   <section>
@@ -57,6 +60,6 @@
     <p class="klein" id="versie"></p>
   </section>
 </dialog>
-<script type="module" src="app.mjs"></script>
+<script type="module" src="app.mjs?v=0.2"></script>
 </body>
 </html>
