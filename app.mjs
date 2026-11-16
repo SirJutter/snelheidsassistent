@@ -5,7 +5,7 @@ import { GpsSpoor, LimietBevestiging, SpraakWachtrij, pasTijdsregelToe, afstandM
 import { BestandsSpeler, bestandVoorTekst } from './kern/audio-bestanden.mjs?v=0.2';
 import { ProeflogOpslag } from './kern/proeflog-opslag.mjs?v=0.2';
 
-const VERSIE = 'web 0.2 · 15-11-2026';
+const VERSIE = 'web 0.2.1 · 16-11-2026';
 const $ = id => document.getElementById(id);
 
 // ---------- lokaal proeflog (zonder coördinaten of wegnamen) ----------

@@ -9,7 +9,7 @@
 <title>Snelheidsassistent</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon.png">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=0.2.1">
 </head>
 <body>
 <header>
@@ -26,14 +26,15 @@
 </main>
 <footer><button id="knop" disabled>Aan</button></footer>
 
-<dialog id="instellingen">
-  <form method="dialog" class="kop"><h2>Instellingen</h2><button id="instellingen-dicht" class="tekstknop">Gereed</button></form>
+<dialog id="instellingen" aria-labelledby="instellingen-titel">
+  <form method="dialog" class="kop"><h2 id="instellingen-titel">Instellingen</h2><button id="instellingen-dicht" class="tekstknop">Gereed</button></form>
+  <div class="instellingen-inhoud">
   <section>
     <h3>Geluid</h3>
     <label class="rij"><span>Stem afspelen via</span>
-      <select id="spraaktechniek"><option value="audio">Geluidsbestanden (Opel-proef)</option><option value="browser">Browserspraak (vorige versie)</option></select></label>
+      <select id="spraaktechniek"><option value="audio">Geluidsbestanden</option><option value="browser">Browserspraak</option></select></label>
     <p class="klein">Geluidsbestanden gebruiken gewone media-audio. De proefstem klinkt anders. Test eerst stilstaand via Bluetooth-audio/media.</p>
-    <label class="rij"><span>Wijzigingen uitspreken</span><input type="checkbox" id="spraak"></label>
+    <label class="rij schakelaar"><span>Wijzigingen uitspreken</span><input type="checkbox" id="spraak"></label>
     <label class="rij"><span>Voorbereiding autoradio</span>
       <select id="voorbereiding"><option value="0">Geen</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option></select></label>
     <label class="rij"><span>Audiotype (Opel-test)</span>
@@ -59,7 +60,8 @@
     <p class="klein">Offline kaart Nederland, momentopname 1 oktober 2026 (Librescoot). Kaartgegevens © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-bijdragers</a>, ODbL. Wegkoppeling: Valhalla 3.9.0 (MIT) als WebAssembly via valhalla-wasm (MIT). Tijdelijke borden en matrixborden ontbreken. Volg altijd de verkeersborden.</p>
     <p class="klein" id="versie"></p>
   </section>
+  </div>
 </dialog>
-<script type="module" src="app.mjs?v=0.2"></script>
+<script type="module" src="app.mjs?v=0.2.1"></script>
 </body>
 </html>

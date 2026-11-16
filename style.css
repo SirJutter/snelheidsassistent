@@ -1,7 +1,7 @@
 :root{--achter:#f2f5fa;--tekst:#111827;--zacht:#5b6472;--kaart:#ffffff;--blauw:#0b5fd6;--rood:#d4172a;--waarschuwing:#fff4d6;--waarschuwing-tekst:#6b4a00}
 @media (prefers-color-scheme:dark){:root{--achter:#0f141b;--tekst:#eef2f7;--zacht:#a3adbb;--kaart:#1a212b;--waarschuwing:#3a2f12;--waarschuwing-tekst:#ffd98a}}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--achter);color:var(--tekst);font:17px/1.4 -apple-system,system-ui,sans-serif}
+html,body{margin:0;height:100%;max-width:100%;overflow-x:hidden;background:var(--achter);color:var(--tekst);font:17px/1.4 -apple-system,system-ui,sans-serif}
 body{display:flex;flex-direction:column;padding:env(safe-area-inset-top) 16px env(safe-area-inset-bottom)}
 header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
 h1{font-size:1.1rem;margin:0}
@@ -18,15 +18,22 @@ footer{padding:12px 0 16px}
 #knop{width:100%;font-size:1.4rem;font-weight:700;padding:16px;border-radius:14px;border:0;background:var(--blauw);color:#fff}
 #knop.aan{background:var(--rood)}
 #knop:disabled{opacity:.5}
-dialog{width:min(100vw - 16px,560px);max-height:90vh;border:0;border-radius:16px;padding:0 16px 16px;background:var(--kaart);color:var(--tekst)}
+dialog{position:fixed;inset:0;margin:auto;width:calc(100% - 24px);max-width:560px;max-height:90vh;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-width:0;overflow:hidden;border:0;border-radius:16px;padding:0 16px 16px;background:var(--kaart);color:var(--tekst)}
+dialog[open]{display:flex;flex-direction:column}
+html:has(dialog[open]),body:has(dialog[open]){overflow:hidden;overscroll-behavior:none}
+.instellingen-inhoud{min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.instellingen-inhoud section{min-width:0;overflow-wrap:anywhere}
 dialog::backdrop{background:rgba(0,0,0,.4)}
-.kop{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--kaart);padding:12px 0}
+.kop{display:flex;flex:none;justify-content:space-between;align-items:center;gap:8px;min-width:0;margin:0;background:var(--kaart);padding:12px 0}
 .kop h2{margin:0;font-size:1.2rem}
-.tekstknop{background:none;border:0;color:var(--blauw);font-size:1rem;font-weight:600}
+.tekstknop{flex:none;min-height:44px;padding:8px;background:none;border:0;color:var(--blauw);font-size:1rem;font-weight:600}
 section{border-top:1px solid rgba(127,127,127,.25);padding:8px 0}
 h3{font-size:1rem;margin:8px 0}
-.rij{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 0}
-select{font-size:1rem}
+.rij{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;min-width:0;padding:10px 0}
+.rij>span{min-width:0}
+.rij.schakelaar{grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.rij input[type="checkbox"]{width:22px;height:22px;margin:0;justify-self:end}
+select{display:block;width:100%;min-width:0;max-width:100%;min-height:44px;padding:8px;font:inherit;font-size:1rem;color:var(--tekst);background:var(--achter);border:1px solid rgba(127,127,127,.4);border-radius:8px;text-overflow:ellipsis}
 section button{display:block;width:100%;margin:8px 0;padding:12px;border-radius:10px;border:0;background:var(--blauw);color:#fff;font-size:1rem}
 section button.secundair{background:transparent;color:var(--blauw);border:1px solid var(--blauw)}
 .klein{font-size:.85rem;color:var(--zacht)}
