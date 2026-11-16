@@ -9,7 +9,7 @@
 <title>Snelheidsassistent</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon.png">
-<link rel="stylesheet" href="style.css?v=0.2.1">
+<link rel="stylesheet" href="style.css?v=0.3">
 </head>
 <body>
 <header>
@@ -31,18 +31,15 @@
   <div class="instellingen-inhoud">
   <section>
     <h3>Geluid</h3>
-    <label class="rij"><span>Stem afspelen via</span>
-      <select id="spraaktechniek"><option value="audio">Geluidsbestanden</option><option value="browser">Browserspraak</option></select></label>
-    <p class="klein">Geluidsbestanden gebruiken gewone media-audio. De proefstem klinkt anders. Test eerst stilstaand via Bluetooth-audio/media.</p>
     <label class="rij schakelaar"><span>Wijzigingen uitspreken</span><input type="checkbox" id="spraak"></label>
-    <label class="rij"><span>Voorbereiding autoradio</span>
-      <select id="voorbereiding"><option value="0">Geen</option><option value="1">1 sec</option><option value="2">2 sec</option><option value="3">3 sec</option></select></label>
-    <label class="rij"><span>Audiotype (Opel-test)</span>
-      <select id="audiotype"><option value="auto">Automatisch</option><option value="playback">Afspelen</option><option value="transient">Omgevingsgeluid (vergelijking)</option></select></label>
-    <button id="stemtest" type="button">Stemtest (stilstaand)</button>
-    <p id="stemtest-status" class="klein"></p>
-    <label class="rij"><span>Wat hoorde je zelf?</span>
-      <select id="gehoord"><option value="">Nog niet beoordeeld</option><option value="volledig_auto">Alles volledig via de Opel</option><option value="begin_mist">Begin van een zin ontbrak</option><option value="alleen_iphone">Alleen via de iPhone</option><option value="niets">Niets hoorbaar</option><option value="radio_bleef">Radio bleef spelen, stem niet hoorbaar</option></select></label>
+    <p class="klein">Kies in de Opel Bluetooth-audio/media. Test stilstaand; de rit mag aan blijven staan. Zet tijdens de test het mediavolume van de auto hoger als dat nodig is.</p>
+    <button id="stemtest" type="button">Test geluid (stilstaand)</button>
+    <p id="stemtest-status" class="klein" role="status"></p>
+    <div id="test-beoordeling" hidden>
+      <button id="test-ja" type="button" class="secundair">Ja, ik hoorde de stem</button>
+      <button id="test-nee" type="button" class="secundair">Nee, geen geluid</button>
+    </div>
+    <p id="losse-opname" hidden><a href="audio/stemtest.m4a" target="_blank" rel="noopener">Open losse testopname</a></p>
   </section>
   <section>
     <h3>Offline kaart</h3>
@@ -62,6 +59,6 @@
   </section>
   </div>
 </dialog>
-<script type="module" src="app.mjs?v=0.2.1"></script>
+<script type="module" src="app.mjs?v=0.3"></script>
 </body>
 </html>

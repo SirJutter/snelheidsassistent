@@ -1,6 +1,6 @@
 // Service worker: de app zelf (niet de kaart) ook zonder internet kunnen openen.
 // Kaartdelen beheert worker.mjs in een eigen cache; die gaan hier ongemoeid doorheen.
-const APP = 'snelheidsassistent-app-web-0.2.1';
+const APP = 'snelheidsassistent-app-web-0.3';
 const BESTANDEN = ['./', 'index.html', 'style.css', 'app.mjs', 'worker.mjs', 'kern/limiet-kern.mjs', 'manifest.webmanifest', 'icon.png',
   'vendor/valhalla-wasm/lib/index.js', 'vendor/valhalla-wasm/lib/tiles.js', 'vendor/valhalla-wasm/lib/default-config.json',
   'vendor/valhalla-wasm/dist/valhalla.mjs', 'vendor/valhalla-wasm/dist/valhalla.wasm', 'tiles/index.json', 'kern/audio-bestanden.mjs', 'kern/proeflog-opslag.mjs', 'audio/stilte.wav', 'audio/activatie.m4a', 'audio/stemtest.m4a',

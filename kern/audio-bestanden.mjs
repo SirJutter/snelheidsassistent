@@ -30,7 +30,10 @@ export class BestandsSpeler {
     const ronde = this.ronde;
     const actueel = () => ronde === this.ronde && isActueel();
     if (!actueel()) return 'afgebroken';
-    if (!await this.gereed) return ronde === this.ronde ? 'fout' : 'afgebroken';
+    if (!await this.gereed) {
+      if (ronde !== this.ronde) return 'afgebroken';
+      this.log('media_niet_vrijgegeven', { bestand }); return 'fout';
+    }
     if (!actueel()) return 'afgebroken';
     if (this.nu() - this.laatsteEinde > 5000 && this.audio.paused) {
       try {

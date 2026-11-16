@@ -2,10 +2,10 @@
 // De bepaling van de maximumsnelheid gebeurt in worker.mjs (Valhalla WebAssembly, offline kaart).
 import { GpsSpoor, LimietBevestiging, SpraakWachtrij, pasTijdsregelToe, afstandM, GRENZEN } from './kern/limiet-kern.mjs';
 
-import { BestandsSpeler, bestandVoorTekst } from './kern/audio-bestanden.mjs?v=0.2';
+import { BestandsSpeler, bestandVoorTekst } from './kern/audio-bestanden.mjs?v=0.3';
 import { ProeflogOpslag } from './kern/proeflog-opslag.mjs?v=0.2';
 
-const VERSIE = 'web 0.2.1 · 16-11-2026';
+const VERSIE = 'web 0.3 · 16-11-2026';
 const $ = id => document.getElementById(id);
 
 // ---------- lokaal proeflog (zonder coördinaten of wegnamen) ----------
@@ -22,8 +22,8 @@ const STANDAARD = { spraak: true, voorbereiding: 1, audiotype: 'playback', spraa
 let instellingen = { ...STANDAARD };
 try {
   const bewaard = JSON.parse(localStorage.getItem('instellingen') ?? '{}');
-  instellingen = { ...STANDAARD, ...bewaard };
-  if (!('spraaktechniek' in bewaard)) instellingen.audiotype = 'playback';
+  // Oude proefkeuzes mogen de vaste geluidsroute niet opnieuw wijzigen.
+  instellingen.spraak = bewaard.spraak !== false;
 } catch { /* privémodus */ }
 const bewaarInstellingen = () => { try { localStorage.setItem('instellingen', JSON.stringify(instellingen)); } catch { /* geen opslag */ } };
 
@@ -65,73 +65,54 @@ function toonOpslag(o) {
 }
 
 // ---------- audio en spraak ----------
-let audioContext = null, stilte = null, laatsteSpraakEinde = 0;
 const bestandsSpeler = new BestandsSpeler({ log });
-function kiesStem() {
-  const stemmen = speechSynthesis.getVoices().filter(v => v.lang?.toLowerCase().replace('_', '-') === 'nl-nl');
-  return stemmen.find(v => v.localService) ?? stemmen[0] ?? null;
-}
+let actieveTest = null, laatsteTest = null;
 function zetAudiotype() {
   if (!('audioSession' in navigator)) return;
-  try { navigator.audioSession.type = instellingen.audiotype; log('audiotype', { type: navigator.audioSession.type }); }
+  try { navigator.audioSession.type = 'playback'; log('audiotype', { type: navigator.audioSession.type }); }
   catch (e) { log('audiotype_fout', { bericht: e.message }); }
 }
-/** Moet direct vanuit een tik worden aangeroepen: iOS staat geluid pas toe na een gebruikershandeling. */
+/** Direct vanuit de tik aanroepen, zonder await vóór play(). */
 function ontgrendelAudio() {
   zetAudiotype();
-  if (instellingen.spraaktechniek === 'audio') { bestandsSpeler.ontgrendel(); return; }
-  try {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (AC && !audioContext) audioContext = new AC();
-    audioContext?.resume();
-  } catch (e) { log('audio_fout', { bericht: e.message }); }
-  const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u);
+  const klaar = bestandsSpeler.ontgrendel();
+  const ronde = bestandsSpeler.ronde;
+  klaar.then(ok => {
+    if (ronde !== bestandsSpeler.ronde) return;
+    audioMelding = ok ? '' : 'Geluid is geblokkeerd. Tik stilstaand in Instellingen op Test geluid.';
+    render();
+  });
+  return klaar;
 }
-function stopStilte() { if (stilte) { try { stilte.stop(); } catch { /* al gestopt */ } stilte = null; } }
-async function bereidAudioVoor(seconden) {
-  if (!audioContext) return;
-  try {
-    await audioContext.resume();
-    stilte = audioContext.createBufferSource();
-    stilte.buffer = audioContext.createBuffer(1, audioContext.sampleRate, audioContext.sampleRate);
-    stilte.loop = true; stilte.connect(audioContext.destination); stilte.start();
-    log('audio_voorbereiding', { seconden, toestand: audioContext.state });
-    await new Promise(r => setTimeout(r, seconden * 1000));
-  } catch (e) { log('audio_voorbereiding_fout', { bericht: e.message }); }
+function annuleerTest() {
+  if (!actieveTest) return;
+  log('stemtest_afgebroken', { test_id: actieveTest.id });
+  actieveTest = null;
+  $('stemtest').disabled = false;
+  $('stemtest-status').textContent = 'Test onderbroken. Tik stilstaand opnieuw op Test geluid.';
 }
-function spreek(tekst, ronde) {
-  return (async () => {
-    if (!aan && ronde !== 'test') return 'afgebroken';
-    if (document.hidden) return 'afgebroken';
-    if (instellingen.spraaktechniek === 'audio') {
-      const bestand = bestandVoorTekst(tekst);
-      if (!bestand) { log('media_bestand_ontbreekt', { tekst }); return 'fout'; }
-      const waarde = /^Maximumsnelheid is (\d+) kilometer per uur$/.exec(tekst);
-      const uitkomst = await bestandsSpeler.spreek(bestand, {
-        tekst, voorbereiding: instellingen.voorbereiding,
-        isActueel: () => !document.hidden && (ronde === 'test' || (aan && ronde === wachtrij.ronde &&
-          (!waarde || (huidige === Number(waarde[1]) && laatsteFix && Date.now() - laatsteFix.tijd <= GRENZEN.versheidS * 1000)))),
-      });
-      if (uitkomst === 'fout') audioMelding = 'Een geluidsmelding kon niet worden afgespeeld. Controleer dit stilstaand met de stemtest.';
-      else if (uitkomst === 'afgerond') audioMelding = '';
-      render();
-      return uitkomst;
-    }
-    if (instellingen.voorbereiding > 0 && Date.now() - laatsteSpraakEinde > 5000) await bereidAudioVoor(instellingen.voorbereiding);
-    if (ronde !== 'test' && ronde !== wachtrij.ronde) { stopStilte(); return 'afgebroken'; }
-    return await new Promise(resolve => {
-      const u = new SpeechSynthesisUtterance(tekst);
-      u.lang = 'nl-NL'; u.voice = kiesStem(); u.rate = 1; u.volume = 1;
-      let klaar = false;
-      const einde = uitkomst => { if (klaar) return; klaar = true; clearTimeout(wacht); laatsteSpraakEinde = Date.now(); stopStilte(); resolve(uitkomst); };
-      const wacht = setTimeout(() => { log('spraak_geen_afronding', { tekst }); speechSynthesis.cancel(); einde('fout'); }, 15000);
-      u.onstart = () => { log('spraak_gestart', { tekst, stem: u.voice?.name ?? 'standaard' }); stopStilte(); };
-      u.onend = () => { log('spraak_afgerond', { tekst }); einde('afgerond'); };
-      u.onerror = e => { log('spraak_fout', { tekst, fout: e.error }); einde(['interrupted', 'canceled'].includes(e.error) ? 'afgebroken' : 'fout'); };
-      log('spraak_aangevraagd', { tekst });
-      speechSynthesis.speak(u);
-    });
-  })();
+function meldHuidigeLimiet() {
+  if (aan && instellingen.spraak && !actieveTest && !document.hidden && huidige != null && laatsteFix &&
+      Date.now() - laatsteFix.tijd <= GRENZEN.versheidS * 1000) wachtrij.meld(huidige);
+}
+async function spreek(tekst, ronde) {
+  const test = typeof ronde === 'object';
+  const geldig = () => !document.hidden && (test ? actieveTest === ronde : aan && !actieveTest && ronde === wachtrij.ronde);
+  if (!geldig()) return 'afgebroken';
+  const bestand = bestandVoorTekst(tekst);
+  if (!bestand) { log('media_bestand_ontbreekt', { tekst }); return 'fout'; }
+  const waarde = /^Maximumsnelheid is (\d+) kilometer per uur$/.exec(tekst);
+  const uitkomst = await bestandsSpeler.spreek(bestand, {
+    tekst, voorbereiding: 1,
+    isActueel: () => geldig() && (test || !waarde || (huidige === Number(waarde[1]) && laatsteFix &&
+      Date.now() - laatsteFix.tijd <= GRENZEN.versheidS * 1000)),
+  });
+  if (geldig()) {
+    if (uitkomst === 'fout') audioMelding = 'Geluid kon niet worden afgespeeld. Tik stilstaand in Instellingen op Test geluid.';
+    else if (uitkomst === 'afgerond') audioMelding = '';
+    render();
+  }
+  return uitkomst;
 }
 const wachtrij = new SpraakWachtrij({
   spreek,
@@ -164,7 +145,7 @@ function startRit() {
   if (aan) return;
   if (!isSecureContext || !navigator.geolocation) { gpsMelding = 'Deze pagina moet via een beveiligd https-adres worden geopend.'; render(); return; }
   if (!kaartGereed) { status = 'De kaart wordt nog geladen. Probeer het zo opnieuw.'; render(); return; }
-  ontgrendelAudio();
+  annuleerTest(); ontgrendelAudio();
   aan = true; generatie++; onderbroken = false; gpsMelding = ''; audioMelding = '';
   spoor.wis(); bevestiging.reset(); huidige = null; weg = ''; resultaatTijd = null; laatsteFix = null; laatsteAanvraag = 0;
   status = 'Wachten op GPS-signaal';
@@ -180,7 +161,7 @@ function stopRit(reden = 'handmatig') {
   aan = false; generatie++;
   if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
   if (wake) { const w = wake; wake = null; w.release().catch(() => {}); }
-  wachtrij.stop(); bestandsSpeler.stop(); speechSynthesis.cancel(); stopStilte(); audioContext?.suspend().catch(() => {});
+  annuleerTest(); wachtrij.stop(); bestandsSpeler.stop();
   spoor.wis(); bevestiging.reset(); huidige = null; weg = ''; resultaatTijd = null; laatsteFix = null; bezig = false; wachtenden.clear();
   status = 'Snelheidsmeldingen uitgeschakeld'; schermStatus = '';
   log('rit_stop', { reden });
@@ -252,7 +233,7 @@ function verwerk(antwoord, gen, eind, id) {
   huidige = limiet; weg = r.weg ?? ''; resultaatTijd = limiet == null ? null : eind.tijd;
   status = omschrijving(r.reden, tijdsregel);
   const melden = bevestiging.waarneem(limiet);
-  if (melden != null) { log('limiet_bevestigd', { limiet_kmu: melden }); if (instellingen.spraak) wachtrij.meld(melden); }
+  if (melden != null) { log('limiet_bevestigd', { limiet_kmu: melden }); if (instellingen.spraak && !actieveTest && !document.hidden) wachtrij.meld(melden); }
   render();
 }
 
@@ -264,9 +245,17 @@ setInterval(() => {
 
 document.addEventListener('visibilitychange', () => {
   log('zichtbaarheid', { verborgen: document.hidden, rit: aan });
-  if (!aan) return;
-  if (document.hidden) { onderbroken = true; bestandsSpeler.stop(); speechSynthesis.cancel(); }
-  else { wissen('Pagina was niet zichtbaar · opnieuw een weg zoeken'); houdSchermAan(); render(); }
+  if (document.hidden) {
+    annuleerTest(); wachtrij.stop(); bestandsSpeler.stop();
+    if (aan) onderbroken = true;
+  } else if (aan) {
+    wissen('Pagina was niet zichtbaar · opnieuw een weg zoeken');
+    bevestiging.reset(); // Spreek ook dezelfde limiet opnieuw uit na de onderbreking.
+    // stop() op de achtergrond wist de afspeeltoestemming in onze speler.
+    // Vraag hervatten opnieuw aan; een weigering krijgt een zichtbare herstelactie.
+    if (instellingen.spraak) { log('media_hervatten'); ontgrendelAudio(); }
+    houdSchermAan(); render();
+  }
 });
 
 // ---------- weergave ----------
@@ -293,30 +282,44 @@ $('knop').addEventListener('click', () => (aan ? stopRit('handmatig') : startRit
 $('instellingen-open').addEventListener('click', () => { worker.postMessage({ type: 'opslag' }); $('instellingen').showModal(); });
 $('instellingen-dicht').addEventListener('click', () => $('instellingen').close());
 $('spraak').checked = instellingen.spraak;
-$('spraak').addEventListener('change', e => { instellingen.spraak = e.target.checked; bewaarInstellingen(); log('instelling_spraak', { aan: instellingen.spraak }); if (!instellingen.spraak) { wachtrij.stop(); bestandsSpeler.stop(); speechSynthesis.cancel(); } else if (aan) { ontgrendelAudio(); /* volgende bevestigde wijziging wordt weer gemeld */ } render(); });
-$('voorbereiding').value = String(instellingen.voorbereiding);
-$('voorbereiding').addEventListener('change', e => { instellingen.voorbereiding = Number(e.target.value); bewaarInstellingen(); log('instelling_voorbereiding', { seconden: instellingen.voorbereiding }); });
-$('spraaktechniek').value = instellingen.spraaktechniek;
-$('spraaktechniek').addEventListener('change', e => {
-  if (aan) { e.target.value = instellingen.spraaktechniek; $('stemtest-status').textContent = 'Zet eerst de meldingen uit.'; return; }
-  bestandsSpeler.stop(); speechSynthesis.cancel(); stopStilte();
-  instellingen.spraaktechniek = e.target.value; bewaarInstellingen();
-  log('instelling_spraaktechniek', { techniek: instellingen.spraaktechniek });
+$('spraak').addEventListener('change', e => {
+  instellingen.spraak = e.target.checked; bewaarInstellingen();
+  log('instelling_spraak', { aan: instellingen.spraak });
+  annuleerTest(); wachtrij.stop(); bestandsSpeler.stop();
+  if (aan && instellingen.spraak) { ontgrendelAudio(); meldHuidigeLimiet(); }
+  render();
 });
-$('audiotype').value = instellingen.audiotype;
-$('audiotype').addEventListener('change', e => { instellingen.audiotype = e.target.value; bewaarInstellingen(); zetAudiotype(); });
 $('stemtest').addEventListener('click', async () => {
-  if (aan) { $('stemtest-status').textContent = 'Zet eerst de meldingen uit; test stilstaand.'; return; }
-  ontgrendelAudio();
-  $('stemtest').disabled = true; $('stemtest-status').textContent = 'Stemtest loopt…';
-  log('stemtest', { techniek: instellingen.spraaktechniek, voorbereiding: instellingen.voorbereiding, audiotype: instellingen.audiotype });
-  const a = await spreek('Snelheidsassistent geactiveerd.', 'test');
-  const b = a === 'afgerond' ? await spreek('Dit is een stemtest. Maximumsnelheid is vijftig kilometer per uur.', 'test') : a;
-  $('stemtest-status').textContent = b === 'afgerond' ? 'De browser meldt: afgerond. Geef hieronder aan wat je zelf hoorde.' : `Stemtest: ${b}`;
-  $('stemtest').disabled = false;
-  if (!aan) bestandsSpeler.stop();
+  if (actieveTest) return;
+  const test = { id: new Date().toISOString() };
+  actieveTest = test; laatsteTest = test;
+  wachtrij.stop(); ontgrendelAudio();
+  $('stemtest').disabled = true; $('test-beoordeling').hidden = true; $('losse-opname').hidden = true;
+  $('stemtest-status').textContent = 'Luister: er volgen twee zinnen…';
+  log('stemtest', { test_id: test.id, rit: aan, techniek: 'audio', voorbereiding: 1, audiotype: 'playback' });
+  const a = await spreek('Snelheidsassistent geactiveerd.', test);
+  const b = a === 'afgerond' ? await spreek('Dit is een stemtest. Maximumsnelheid is vijftig kilometer per uur.', test) : a;
+  if (actieveTest !== test) return;
+  actieveTest = null;
+  log('stemtest_uitkomst', { test_id: test.id, uitkomst: b });
+  $('stemtest-status').textContent = b === 'afgerond' ? 'De speler is klaar. Heb je de stem zelf gehoord?' : 'Afspelen lukte niet. Je kunt hieronder de losse testopname openen.';
+  $('stemtest').disabled = false; $('test-beoordeling').hidden = false;
+  $('losse-opname').hidden = b === 'afgerond';
+  if (!aan || !instellingen.spraak) bestandsSpeler.stop();
+  else meldHuidigeLimiet();
 });
-$('gehoord').addEventListener('change', e => log('hoorbaarheid_door_gebruiker', { techniek: instellingen.spraaktechniek, antwoord: e.target.value, voorbereiding: instellingen.voorbereiding, audiotype: instellingen.audiotype }));
+for (const [id, antwoord] of [['test-ja', 'hoorbaar'], ['test-nee', 'niets']]) {
+  $(id).addEventListener('click', () => {
+    if (!laatsteTest) return;
+    log('hoorbaarheid_door_gebruiker', { test_id: laatsteTest.id, antwoord });
+    $('test-beoordeling').hidden = true;
+    $('losse-opname').hidden = antwoord !== 'niets';
+    $('stemtest-status').textContent = antwoord === 'hoorbaar' ? 'Bedankt, geluid gehoord. De test is opgeslagen.' : 'Open de losse testopname hieronder. Hoor je ook die niet? Deel dan het proeflog.';
+  });
+}
+$('losse-opname').addEventListener('click', () => {
+  log('losse_testopname', { test_id: laatsteTest?.id });
+});
 $('download').addEventListener('click', () => { $('download').disabled = true; navigator.storage?.persist?.().catch(() => {}); log('kaart_download_start'); worker.postMessage({ type: 'download' }); });
 $('wis-kaart').addEventListener('click', () => { if (confirm('Opgeslagen kaart van deze iPhone verwijderen?')) worker.postMessage({ type: 'wis_kaart' }); });
 $('deel-log').addEventListener('click', async () => {
@@ -329,7 +332,6 @@ $('deel-log').addEventListener('click', async () => {
   } catch (e) { if (e.name !== 'AbortError') alert('Delen mislukt: ' + e.message); }
 });
 $('versie').textContent = VERSIE;
-speechSynthesis.addEventListener?.('voiceschanged', () => log('stemmen', { nl: speechSynthesis.getVoices().filter(v => /^nl/i.test(v.lang)).map(v => v.name).join(', ') }));
 log('geopend', { versie: VERSIE, beveiligd: isSecureContext, standalone: matchMedia('(display-mode: standalone)').matches, wakeLock: 'wakeLock' in navigator, spraak: 'speechSynthesis' in window, audioSession: 'audioSession' in navigator });
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(e => log('sw_fout', { bericht: e.message }));
 render();
