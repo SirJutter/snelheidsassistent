@@ -30,3 +30,14 @@ Stilstaande controle: herlaad, controleer bij het tandwiel **web 0.2**, kies
 **Geluidsbestanden (Opel-proef)**, **Afspelen**, **1 sec**, en doe de stemtest met
 de Opel op Bluetooth-audio/media. Geef aan wat je zelf hoorde en deel het proeflog.
 Er is geen nieuwe kaartdownload nodig. De native iPhone-app is niet gewijzigd.
+
+
+## Web 0.4 — doorlopende mediastroom (16 november 2026)
+
+Web 0.2/0.3 startte per melding een korte mediastroom. Die bleef via de Opel stil,
+terwijl doorlopende muziek wel klinkt. Daarom loopt tijdens de rit nu één onhoorbare
+mediastroom naar de auto (in het iPhone-mediacentrum zichtbaar als "Snelheidsassistent").
+De Nederlandse opnamen worden via Web Audio over die stroom gemengd, zonder bronwissel
+of pauze. De eerste zin volgt circa drie seconden na Aan of Test geluid; daarna direct.
+Muziek vanaf dezelfde iPhone pauzeert tijdens de rit. Bij Uit stopt de stroom.
+Kaart, wegkoppeling en limietbepaling zijn ongewijzigd.

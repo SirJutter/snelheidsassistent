@@ -2,10 +2,10 @@
 // De bepaling van de maximumsnelheid gebeurt in worker.mjs (Valhalla WebAssembly, offline kaart).
 import { GpsSpoor, LimietBevestiging, SpraakWachtrij, pasTijdsregelToe, afstandM, GRENZEN } from './kern/limiet-kern.mjs';
 
-import { BestandsSpeler, bestandVoorTekst } from './kern/audio-bestanden.mjs?v=0.3';
+import { BestandsSpeler, bestandVoorTekst } from './kern/audio-bestanden.mjs?v=0.4';
 import { ProeflogOpslag } from './kern/proeflog-opslag.mjs?v=0.2';
 
-const VERSIE = 'web 0.3 · 16-11-2026';
+const VERSIE = 'web 0.4 · 16-11-2026';
 const $ = id => document.getElementById(id);
 
 // ---------- lokaal proeflog (zonder coördinaten of wegnamen) ----------
@@ -18,7 +18,7 @@ const proeflog = new ProeflogOpslag({ status: blijvend => {
 function log(gebeurtenis, velden = {}) { proeflog.record(gebeurtenis, velden); }
 
 // ---------- instellingen (per toestel, alleen gemak) ----------
-const STANDAARD = { spraak: true, voorbereiding: 1, audiotype: 'playback', spraaktechniek: 'audio' };
+const STANDAARD = { spraak: true };
 let instellingen = { ...STANDAARD };
 try {
   const bewaard = JSON.parse(localStorage.getItem('instellingen') ?? '{}');
@@ -69,9 +69,10 @@ const bestandsSpeler = new BestandsSpeler({ log });
 let actieveTest = null, laatsteTest = null;
 function zetAudiotype() {
   if (!('audioSession' in navigator)) return;
-  try { navigator.audioSession.type = 'playback'; log('audiotype', { type: navigator.audioSession.type }); }
+  try { navigator.audioSession.type = 'playback'; log('audiotype', { gevraagd: 'playback', gemeld: navigator.audioSession.type, toestand: navigator.audioSession.state ?? null }); }
   catch (e) { log('audiotype_fout', { bericht: e.message }); }
 }
+try { navigator.audioSession?.addEventListener?.('statechange', () => log('audiosessie_toestand', { toestand: navigator.audioSession.state, type: navigator.audioSession.type })); } catch { /* niet ondersteund */ }
 /** Direct vanuit de tik aanroepen, zonder await vóór play(). */
 function ontgrendelAudio() {
   zetAudiotype();
@@ -103,7 +104,7 @@ async function spreek(tekst, ronde) {
   if (!bestand) { log('media_bestand_ontbreekt', { tekst }); return 'fout'; }
   const waarde = /^Maximumsnelheid is (\d+) kilometer per uur$/.exec(tekst);
   const uitkomst = await bestandsSpeler.spreek(bestand, {
-    tekst, voorbereiding: 1,
+    tekst,
     isActueel: () => geldig() && (test || !waarde || (huidige === Number(waarde[1]) && laatsteFix &&
       Date.now() - laatsteFix.tijd <= GRENZEN.versheidS * 1000)),
   });
@@ -149,7 +150,7 @@ function startRit() {
   aan = true; generatie++; onderbroken = false; gpsMelding = ''; audioMelding = '';
   spoor.wis(); bevestiging.reset(); huidige = null; weg = ''; resultaatTijd = null; laatsteFix = null; laatsteAanvraag = 0;
   status = 'Wachten op GPS-signaal';
-  log('rit_start', { versie: VERSIE, techniek: instellingen.spraaktechniek, voorbereiding: instellingen.voorbereiding, audiotype: instellingen.audiotype, standalone: matchMedia('(display-mode: standalone)').matches });
+  log('rit_start', { versie: VERSIE, standalone: matchMedia('(display-mode: standalone)').matches });
   navigator.storage?.persist?.().then(r => log('opslag_blijvend', { toegekend: r })).catch(() => {});
   houdSchermAan();
   watchId = navigator.geolocation.watchPosition(opFix, opGpsFout, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
@@ -295,13 +296,14 @@ $('stemtest').addEventListener('click', async () => {
   actieveTest = test; laatsteTest = test;
   wachtrij.stop(); ontgrendelAudio();
   $('stemtest').disabled = true; $('test-beoordeling').hidden = true; $('losse-opname').hidden = true;
-  $('stemtest-status').textContent = 'Luister: er volgen twee zinnen…';
-  log('stemtest', { test_id: test.id, rit: aan, techniek: 'audio', voorbereiding: 1, audiotype: 'playback' });
+  $('stemtest-status').textContent = 'Luister: na enkele seconden volgen twee zinnen…';
+  log('stemtest', { test_id: test.id, versie: VERSIE, rit: aan });
   const a = await spreek('Snelheidsassistent geactiveerd.', test);
   const b = a === 'afgerond' ? await spreek('Dit is een stemtest. Maximumsnelheid is vijftig kilometer per uur.', test) : a;
   if (actieveTest !== test) return;
   actieveTest = null;
-  log('stemtest_uitkomst', { test_id: test.id, uitkomst: b });
+  // 'speler' zegt alleen of de software klaar is; of iemand iets hoorde volgt uit hoorbaarheid_door_gebruiker.
+  log('stemtest_uitkomst', { test_id: test.id, versie: VERSIE, speler: b });
   $('stemtest-status').textContent = b === 'afgerond' ? 'De speler is klaar. Heb je de stem zelf gehoord?' : 'Afspelen lukte niet. Je kunt hieronder de losse testopname openen.';
   $('stemtest').disabled = false; $('test-beoordeling').hidden = false;
   $('losse-opname').hidden = b === 'afgerond';
@@ -311,7 +313,7 @@ $('stemtest').addEventListener('click', async () => {
 for (const [id, antwoord] of [['test-ja', 'hoorbaar'], ['test-nee', 'niets']]) {
   $(id).addEventListener('click', () => {
     if (!laatsteTest) return;
-    log('hoorbaarheid_door_gebruiker', { test_id: laatsteTest.id, antwoord });
+    log('hoorbaarheid_door_gebruiker', { test_id: laatsteTest.id, versie: VERSIE, antwoord, ...bestandsSpeler.toestand() });
     $('test-beoordeling').hidden = true;
     $('losse-opname').hidden = antwoord !== 'niets';
     $('stemtest-status').textContent = antwoord === 'hoorbaar' ? 'Bedankt, geluid gehoord. De test is opgeslagen.' : 'Open de losse testopname hieronder. Hoor je ook die niet? Deel dan het proeflog.';
@@ -332,6 +334,6 @@ $('deel-log').addEventListener('click', async () => {
   } catch (e) { if (e.name !== 'AbortError') alert('Delen mislukt: ' + e.message); }
 });
 $('versie').textContent = VERSIE;
-log('geopend', { versie: VERSIE, beveiligd: isSecureContext, standalone: matchMedia('(display-mode: standalone)').matches, wakeLock: 'wakeLock' in navigator, spraak: 'speechSynthesis' in window, audioSession: 'audioSession' in navigator });
+log('geopend', { versie: VERSIE, beveiligd: isSecureContext, standalone: matchMedia('(display-mode: standalone)').matches, wakeLock: 'wakeLock' in navigator, audioSession: 'audioSession' in navigator, mediaSession: 'mediaSession' in navigator, webAudio: Boolean(window.AudioContext ?? window.webkitAudioContext) });
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(e => log('sw_fout', { bericht: e.message }));
 render();

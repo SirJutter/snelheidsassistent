@@ -3,3 +3,8 @@ Bronprogramma: https://github.com/espeak-ng/espeak-ng (GPL-3.0-or-later).
 Er zijn geen Apple-systeemstemmen of menselijke stemopnamen verspreid.
 De app bevat alleen de gegenereerde audio van de eigen meldingsteksten, niet de TTS-engine.
 Dit is een eenvoudige proefstem voor de media-afspeelroute in de Opel.
+
+draaggolf.m4a (16 november 2026, web 0.4): 10 seconden roze ruis op circa -70 dBFS,
+gegenereerd met FFmpeg (anoisesrc), AAC 48 kbit/s mono. Geen opname van een persoon.
+Dient als onhoorbare, doorlopende mediastroom naar de Bluetooth-autoradio tijdens de rit.
+stilte.wav wordt sinds web 0.4 niet meer gebruikt en blijft alleen voor oude caches staan.

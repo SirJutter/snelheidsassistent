@@ -1,9 +1,9 @@
 // Service worker: de app zelf (niet de kaart) ook zonder internet kunnen openen.
 // Kaartdelen beheert worker.mjs in een eigen cache; die gaan hier ongemoeid doorheen.
-const APP = 'snelheidsassistent-app-web-0.3';
+const APP = 'snelheidsassistent-app-web-0.4';
 const BESTANDEN = ['./', 'index.html', 'style.css', 'app.mjs', 'worker.mjs', 'kern/limiet-kern.mjs', 'manifest.webmanifest', 'icon.png',
   'vendor/valhalla-wasm/lib/index.js', 'vendor/valhalla-wasm/lib/tiles.js', 'vendor/valhalla-wasm/lib/default-config.json',
-  'vendor/valhalla-wasm/dist/valhalla.mjs', 'vendor/valhalla-wasm/dist/valhalla.wasm', 'tiles/index.json', 'kern/audio-bestanden.mjs', 'kern/proeflog-opslag.mjs', 'audio/stilte.wav', 'audio/activatie.m4a', 'audio/stemtest.m4a',
+  'vendor/valhalla-wasm/dist/valhalla.mjs', 'vendor/valhalla-wasm/dist/valhalla.wasm', 'tiles/index.json', 'kern/audio-bestanden.mjs', 'kern/proeflog-opslag.mjs', 'audio/draaggolf.m4a', 'audio/activatie.m4a', 'audio/stemtest.m4a',
   ...[...Array.from({ length: 130 }, (_, i) => i + 1), 140, 150, 160, 180, 200].map(n => `audio/limiet-${n}.m4a`)];
 self.addEventListener('install', e => e.waitUntil(caches.open(APP).then(c => c.addAll(BESTANDEN)).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(k => Promise.all(k.filter(n => (n.startsWith('snelheidsassistent-app-') || n === 'app-web-0.1') && n !== APP).map(n => caches.delete(n)))).then(() => self.clients.claim())));
