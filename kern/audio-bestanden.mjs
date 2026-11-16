@@ -39,7 +39,7 @@ const haalStandaard = async url => {
 const rond = (v, n = 2) => (typeof v === 'number' && Number.isFinite(v) ? Math.round(v * 10 ** n) / 10 ** n : null);
 
 export class BestandsSpeler {
-  constructor({ maakAudio = () => new Audio(), maakContext = maakStandaardContext, haal = haalStandaard,
+  constructor({ maakAudio = () => new Audio(), maakContext = maakStandaardContext, haal = haalStandaard, haalElementBestand = async bestand => bestand,
     mediaSession = globalThis.navigator?.mediaSession,
     vraagMicrofoon = c => globalThis.navigator.mediaDevices.getUserMedia(c),
     audioSessie = () => globalThis.navigator?.audioSession,
@@ -47,7 +47,7 @@ export class BestandsSpeler {
     gesprekVoorbereidingMs = GESPREK_VOORBEREIDING_MS, gesprekNaloopMs = GESPREK_NALOOP_MS, route = 'media' } = {}) {
     this.audio = maakAudio(); this.log = log; this.nu = nu; this.timeoutMs = timeoutMs; this.voorbereidingMs = voorbereidingMs;
     this.gesprekVoorbereidingMs = gesprekVoorbereidingMs; this.gesprekNaloopMs = gesprekNaloopMs;
-    this.maakContext = maakContext; this.haal = haal; this.mediaSession = mediaSession;
+    this.maakContext = maakContext; this.haal = haal; this.haalElementBestand = haalElementBestand; this.mediaSession = mediaSession;
     this.vraagMicrofoon = vraagMicrofoon; this.audioSessie = audioSessie; this.route = route;
     this.audio.preload = 'auto'; this.audio.volume = 1; this.audio.muted = false;
     this.ctx = null; this.buffers = new Map();
@@ -271,7 +271,11 @@ export class BestandsSpeler {
   }
 
   /** Terugval zonder Web Audio: opname op hetzelfde element; in de media-route daarna de draaggolf terug. */
-  #speelViaElement(bestand, tekst, actueel) {
+  async #speelViaElement(bestand, tekst, actueel) {
+    let bron;
+    try { bron = await this.haalElementBestand(bestand); }
+    catch (e) { this.log('media_laden_fout', { bestand, bericht: e.message }); return actueel() ? 'fout' : 'afgebroken'; }
+    if (!actueel()) return 'afgebroken';
     return new Promise(resolve => {
       let klaar = false;
       const start = this.nu(), ronde = this.ronde;
@@ -291,7 +295,7 @@ export class BestandsSpeler {
       };
       this.audio.onended = () => einde(actueel() ? 'afgerond' : 'afgebroken');
       this.audio.onerror = () => { this.log('media_fout', { bestand, code: this.audio.error?.code ?? null }); einde('fout'); };
-      this.elementSpraak = true; this.audio.loop = false; this.audio.src = bestand;
+      this.elementSpraak = true; this.audio.loop = false; this.audio.src = bron;
       this.log('media_aangevraagd', { bestand, tekst, speler: 'element' });
       try {
         Promise.resolve(this.audio.play()).catch(e => { this.log('media_afspelen_geweigerd', { naam: e.name, bericht: e.message }); einde(actueel() ? 'fout' : 'afgebroken'); });

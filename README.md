@@ -57,3 +57,19 @@ wegkoppeling "De maximumsnelheid is … kilometer per uur.", en bij elke bevesti
 
 Beperking: Safari stopt de locatiebepaling zodra de pagina niet zichtbaar is (scherm vergrendeld
 of andere app). De app werkt daarom alleen met het scherm aan.
+
+
+### Persoonlijke Xander-stem (web 0.5.1)
+
+De werkende geluidsroute van 0.5 blijft behouden. Een persoonlijk stempakket vervangt alleen de
+opnamen. Zonder import blijft de bestaande proefstem actief. De app meldt de echte installatiestatus.
+
+Xander (verbeterd) wordt niet als openbare opname verspreid. Maak het pakket op je eigen Mac
+met de verbeterde stem geïnstalleerd, zet het bestand op je eigen iPhone en kies in de webapp
+Instellingen → Zet Xander op deze iPhone. De rit moet Uit staan. Het pakket wordt lokaal gecontroleerd
+en in één transactie in IndexedDB opgeslagen. Het wordt niet naar de website of GitHub gestuurd.
+Bewaar een privékopie; bij het wissen van websitegegevens kan ook deze stem verdwijnen.
+
+De generator staat alleen in de lokale projectmap `web/tools/maak-xander-pakket.py` en gebruikt
+`maak-xander-stem.swift`. Beide weigeren compacte Xander als vervanging voor de verbeterde stem.
+Dit is geen overstap naar een native iPhone-app. Kaart, GPS en geluidsroute zijn ongewijzigd.

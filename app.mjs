@@ -2,10 +2,11 @@
 // De bepaling van de maximumsnelheid gebeurt in worker.mjs (Valhalla WebAssembly, offline kaart).
 import { GpsSpoor, LimietBevestiging, SpraakWachtrij, pasTijdsregelToe, afstandM, GRENZEN } from './kern/limiet-kern.mjs';
 
-import { BestandsSpeler, bestandVoorTekst, ROUTES } from './kern/audio-bestanden.mjs?v=0.5';
+import { BestandsSpeler, bestandVoorTekst, ROUTES } from './kern/audio-bestanden.mjs?v=0.5.1';
+import { PersoonlijkeStem } from './kern/persoonlijke-stem.mjs?v=0.5.1';
 import { ProeflogOpslag } from './kern/proeflog-opslag.mjs?v=0.2';
 
-const VERSIE = 'web 0.5 · 16-11-2026';
+const VERSIE = 'web 0.5.1 · 16-11-2026';
 const $ = id => document.getElementById(id);
 
 // ---------- lokaal proeflog (zonder coördinaten of wegnamen) ----------
@@ -65,7 +66,18 @@ function toonOpslag(o) {
 }
 
 // ---------- audio en spraak ----------
-const bestandsSpeler = new BestandsSpeler({ log });
+let stemImportBezig = false;
+const persoonlijkeStem = new PersoonlijkeStem({ status: stem => {
+  $('stem-import').hidden = Boolean(stem);
+  $('stem-status').textContent = stem ? `Stem: ${stem} · op deze iPhone opgeslagen.` : 'Stem: proefstem. Xander (verbeterd) is nog niet op deze iPhone gezet.';
+} });
+const bestandsSpeler = new BestandsSpeler({ log, haalElementBestand: bestand => persoonlijkeStem.elementBestand(bestand), haal: async bestand => {
+  const eigen = await persoonlijkeStem.haal(bestand);
+  if (eigen) return eigen;
+  const r = await fetch(bestand);
+  if (!r.ok) throw Error('HTTP ' + r.status);
+  return r.arrayBuffer();
+} });
 let actieveTest = null, laatsteTest = null;
 // Geluidsroute: uitkomst van de stilstaande geluidstest. Zonder test de bewezen media-route (web 0.4).
 let geluidsroute = 'media', geluidsrouteGetest = false;
@@ -165,7 +177,7 @@ async function houdSchermAan() {
 
 // ---------- rit ----------
 function startRit() {
-  if (aan) return;
+  if (aan || stemImportBezig) return;
   if (!isSecureContext || !navigator.geolocation) { gpsMelding = 'Deze pagina moet via een beveiligd https-adres worden geopend.'; render(); return; }
   if (!kaartGereed) { status = 'De kaart wordt nog geladen. Probeer het zo opnieuw.'; render(); return; }
   annuleerTest(); bestandsSpeler.route = ritRoute(); ontgrendelAudio();
@@ -289,7 +301,8 @@ function render() {
   $('status').textContent = gpsMelding || status;
   $('knop').textContent = aan ? 'Uit' : 'Aan';
   $('knop').className = aan ? 'aan' : '';
-  $('knop').disabled = !kaartGereed && !aan;
+  $('knop').disabled = stemImportBezig || (!kaartGereed && !aan);
+  $('stem-import').disabled = aan || Boolean(actieveTest) || stemImportBezig;
   const banners = [];
   if (aan && schermStatus === 'mislukt') banners.push('Het scherm kan automatisch uitgaan. Zet tijdens de rit Instellingen › Scherm en helderheid › Automatisch vergrendelen op Nooit.');
   if (aan && schermStatus === 'niet_ondersteund') banners.push('Deze browser kan het scherm niet wakker houden. Zet Automatisch vergrendelen tijdelijk op Nooit.');
@@ -316,7 +329,7 @@ $('spraak').addEventListener('change', e => {
 // microfoon. Proef 2: telefoonverbinding met kort de microfoon aan. Het antwoord kiest de route.
 const wachtTest = (ms, test) => new Promise(r => setTimeout(r, ms)).then(() => actieveTest === test);
 $('stemtest').addEventListener('click', async () => {
-  if (actieveTest) return;
+  if (actieveTest || stemImportBezig) return;
   const test = { id: new Date().toISOString() };
   actieveTest = test; laatsteTest = test;
   wachtrij.stop(); bestandsSpeler.route = 'gesprek'; ontgrendelAudio();
@@ -354,6 +367,29 @@ for (const [id, antwoord, route] of [['hoorde-1', 'proef_1_gehoord', 'gesprek'],
     if (aan && instellingen.spraak) { bestandsSpeler.route = ritRoute(); ontgrendelAudio(); }
   });
 }
+$('stem-import').addEventListener('click', () => {
+  if (aan || actieveTest || stemImportBezig) return;
+  $('stem-bestand').click();
+});
+$('stem-bestand').addEventListener('change', async e => {
+  const bestand = e.target.files?.[0];
+  if (!bestand) return;
+  if (aan || actieveTest || stemImportBezig) { $('stem-status').textContent = 'Zet de rit eerst uit om de stem te installeren.'; e.target.value = ''; return; }
+  stemImportBezig = true; $('stemtest').disabled = true; render();
+  $('stem-status').textContent = 'Xander controleren en op deze iPhone zetten…';
+  try {
+    if (bestand.size > 30000000) throw Error('Het stembestand is te groot.');
+    await persoonlijkeStem.importeer(await bestand.text());
+    bestandsSpeler.stop(); bestandsSpeler.buffers.clear();
+    log('persoonlijke_stem_geinstalleerd', { stem: persoonlijkeStem.actief.stem });
+    navigator.storage?.persist?.().catch(() => {});
+  } catch (fout) {
+    $('stem-status').textContent = `Stem niet gewijzigd: ${fout.message}`;
+    log('persoonlijke_stem_import_fout', { bericht: fout.message });
+  } finally {
+    stemImportBezig = false; $('stemtest').disabled = false; e.target.value = ''; render();
+  }
+});
 $('download').addEventListener('click', () => { $('download').disabled = true; navigator.storage?.persist?.().catch(() => {}); log('kaart_download_start'); worker.postMessage({ type: 'download' }); });
 $('wis-kaart').addEventListener('click', () => { if (confirm('Opgeslagen kaart van deze iPhone verwijderen?')) worker.postMessage({ type: 'wis_kaart' }); });
 $('deel-log').addEventListener('click', async () => {

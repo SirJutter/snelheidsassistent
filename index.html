@@ -9,7 +9,7 @@
 <title>Snelheidsassistent</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon.png">
-<link rel="stylesheet" href="style.css?v=0.5">
+<link rel="stylesheet" href="style.css?v=0.5.1">
 </head>
 <body>
 <header>
@@ -33,6 +33,10 @@
     <h3>Geluid</h3>
     <label class="rij schakelaar"><span>Wijzigingen uitspreken</span><input type="checkbox" id="spraak"></label>
     <p class="klein">Test eenmalig stilstaand, met de Opel op de <strong>gewone radio</strong> (niet op Bluetooth-media). De test probeert de telefoonverbinding van de auto; jouw antwoord bepaalt hoe de meldingen voortaan klinken.</p>
+    <p id="stem-status" class="klein" role="status">Stem laden…</p>
+    <button id="stem-import" type="button" class="secundair">Zet Xander op deze iPhone</button>
+    <input id="stem-bestand" type="file" accept=".json,application/json" hidden>
+    <p class="klein">Kies je persoonlijke Xander-stembestand. Het blijft op deze iPhone en wordt niet verstuurd. Zet de rit eerst uit.</p>
     <p id="geluidsroute" class="klein"></p>
     <button id="stemtest" type="button">Test geluid (stilstaand)</button>
     <p id="stemtest-status" class="klein" role="status"></p>
@@ -61,6 +65,6 @@
   </section>
   </div>
 </dialog>
-<script type="module" src="app.mjs?v=0.5"></script>
+<script type="module" src="app.mjs?v=0.5.1"></script>
 </body>
 </html>
