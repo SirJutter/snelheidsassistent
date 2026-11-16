@@ -41,3 +41,19 @@ De Nederlandse opnamen worden via Web Audio over die stroom gemengd, zonder bron
 of pauze. De eerste zin volgt circa drie seconden na Aan of Test geluid; daarna direct.
 Muziek vanaf dezelfde iPhone pauzeert tijdens de rit. Bij Uit stopt de stroom.
 Kaart, wegkoppeling en limietbepaling zijn ongewijzigd.
+
+
+## Web 0.5 — telefoonverbinding van de auto en nieuwe startmeldingen (16 november 2026)
+
+Web 0.4 was hoorbaar, maar alleen als de Opel handmatig op Bluetooth-media stond. Web 0.5
+probeert per melding de telefoonverbinding van de auto (handsfree), zoals de oude iPhone-app:
+radio kort onderbroken, daarna weer terug. De stilstaande geluidstest (Opel op de gewone radio)
+speelt "Proef één" (zonder microfoon) en "Proef twee" (met kort de microfoon aan). Het antwoord
+bepaalt de route; zonder test of bij "niets" blijft de route van web 0.4 actief.
+De microfoon wordt nooit opgenomen of verstuurd en alleen rond een melding geopend.
+
+Nieuwe meldingen: "Snelheidsassistent is actief." bij Aan, daarna na de eerste verse
+wegkoppeling "De maximumsnelheid is … kilometer per uur.", en bij elke bevestigde wijziging.
+
+Beperking: Safari stopt de locatiebepaling zodra de pagina niet zichtbaar is (scherm vergrendeld
+of andere app). De app werkt daarom alleen met het scherm aan.

@@ -2,10 +2,10 @@
 // De bepaling van de maximumsnelheid gebeurt in worker.mjs (Valhalla WebAssembly, offline kaart).
 import { GpsSpoor, LimietBevestiging, SpraakWachtrij, pasTijdsregelToe, afstandM, GRENZEN } from './kern/limiet-kern.mjs';
 
-import { BestandsSpeler, bestandVoorTekst } from './kern/audio-bestanden.mjs?v=0.4';
+import { BestandsSpeler, bestandVoorTekst, ROUTES } from './kern/audio-bestanden.mjs?v=0.5';
 import { ProeflogOpslag } from './kern/proeflog-opslag.mjs?v=0.2';
 
-const VERSIE = 'web 0.4 · 16-11-2026';
+const VERSIE = 'web 0.5 · 16-11-2026';
 const $ = id => document.getElementById(id);
 
 // ---------- lokaal proeflog (zonder coördinaten of wegnamen) ----------
@@ -67,6 +67,28 @@ function toonOpslag(o) {
 // ---------- audio en spraak ----------
 const bestandsSpeler = new BestandsSpeler({ log });
 let actieveTest = null, laatsteTest = null;
+// Geluidsroute: uitkomst van de stilstaande geluidstest. Zonder test de bewezen media-route (web 0.4).
+let geluidsroute = 'media', geluidsrouteGetest = false;
+try { const r = localStorage.getItem('geluidsroute'); if (ROUTES.includes(r)) { geluidsroute = r; geluidsrouteGetest = true; } } catch { /* privémodus */ }
+let microfoonToegestaan = null;
+navigator.permissions?.query?.({ name: 'microphone' }).then(s => {
+  const zet = () => { microfoonToegestaan = s.state === 'granted'; };
+  zet(); s.addEventListener?.('change', zet);
+}).catch(() => {});
+/** Route voor de rit. De microfoonroute alleen als toestemming al vaststaat: nooit een vraag tijdens het rijden. */
+function ritRoute() {
+  if (geluidsroute === 'microfoon' && microfoonToegestaan === false) { log('route_teruggevallen', { van: 'microfoon', naar: 'media', reden: 'geen_microfoontoestemming' }); return 'media'; }
+  return geluidsroute;
+}
+function toonRoute() {
+  const vak = $('geluidsroute');
+  if (!vak) return;
+  vak.textContent = !geluidsrouteGetest
+    ? 'Geluidsroute: nog niet getest. Tot de test gaan meldingen via Bluetooth-audio (Opel op Bluetooth-media).'
+    : ({ gesprek: 'Geluidsroute: telefoonverbinding van de auto; de radio wordt kort onderbroken.',
+         microfoon: 'Geluidsroute: telefoonverbinding van de auto, met kort de microfoon aan (er wordt niets opgenomen of verstuurd).',
+         media: 'Geluidsroute: Bluetooth-audio; zet de Opel op Bluetooth-media.' })[geluidsroute];
+}
 function zetAudiotype() {
   if (!('audioSession' in navigator)) return;
   try { navigator.audioSession.type = 'playback'; log('audiotype', { gevraagd: 'playback', gemeld: navigator.audioSession.type, toestand: navigator.audioSession.state ?? null }); }
@@ -102,7 +124,7 @@ async function spreek(tekst, ronde) {
   if (!geldig()) return 'afgebroken';
   const bestand = bestandVoorTekst(tekst);
   if (!bestand) { log('media_bestand_ontbreekt', { tekst }); return 'fout'; }
-  const waarde = /^Maximumsnelheid is (\d+) kilometer per uur$/.exec(tekst);
+  const waarde = /^De maximumsnelheid is (\d+) kilometer per uur\.$/.exec(tekst);
   const uitkomst = await bestandsSpeler.spreek(bestand, {
     tekst,
     isActueel: () => geldig() && (test || !waarde || (huidige === Number(waarde[1]) && laatsteFix &&
@@ -146,11 +168,11 @@ function startRit() {
   if (aan) return;
   if (!isSecureContext || !navigator.geolocation) { gpsMelding = 'Deze pagina moet via een beveiligd https-adres worden geopend.'; render(); return; }
   if (!kaartGereed) { status = 'De kaart wordt nog geladen. Probeer het zo opnieuw.'; render(); return; }
-  annuleerTest(); ontgrendelAudio();
+  annuleerTest(); bestandsSpeler.route = ritRoute(); ontgrendelAudio();
   aan = true; generatie++; onderbroken = false; gpsMelding = ''; audioMelding = '';
   spoor.wis(); bevestiging.reset(); huidige = null; weg = ''; resultaatTijd = null; laatsteFix = null; laatsteAanvraag = 0;
   status = 'Wachten op GPS-signaal';
-  log('rit_start', { versie: VERSIE, standalone: matchMedia('(display-mode: standalone)').matches });
+  log('rit_start', { versie: VERSIE, route: bestandsSpeler.route, standalone: matchMedia('(display-mode: standalone)').matches });
   navigator.storage?.persist?.().then(r => log('opslag_blijvend', { toegekend: r })).catch(() => {});
   houdSchermAan();
   watchId = navigator.geolocation.watchPosition(opFix, opGpsFout, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
@@ -254,7 +276,7 @@ document.addEventListener('visibilitychange', () => {
     bevestiging.reset(); // Spreek ook dezelfde limiet opnieuw uit na de onderbreking.
     // stop() op de achtergrond wist de afspeeltoestemming in onze speler.
     // Vraag hervatten opnieuw aan; een weigering krijgt een zichtbare herstelactie.
-    if (instellingen.spraak) { log('media_hervatten'); ontgrendelAudio(); }
+    if (instellingen.spraak) { log('media_hervatten'); bestandsSpeler.route = ritRoute(); ontgrendelAudio(); }
     houdSchermAan(); render();
   }
 });
@@ -287,41 +309,51 @@ $('spraak').addEventListener('change', e => {
   instellingen.spraak = e.target.checked; bewaarInstellingen();
   log('instelling_spraak', { aan: instellingen.spraak });
   annuleerTest(); wachtrij.stop(); bestandsSpeler.stop();
-  if (aan && instellingen.spraak) { ontgrendelAudio(); meldHuidigeLimiet(); }
+  if (aan && instellingen.spraak) { bestandsSpeler.route = ritRoute(); ontgrendelAudio(); meldHuidigeLimiet(); }
   render();
 });
+// Geluidstest, stilstaand met de Opel op de gewone radio. Proef 1: telefoonverbinding zonder
+// microfoon. Proef 2: telefoonverbinding met kort de microfoon aan. Het antwoord kiest de route.
+const wachtTest = (ms, test) => new Promise(r => setTimeout(r, ms)).then(() => actieveTest === test);
 $('stemtest').addEventListener('click', async () => {
   if (actieveTest) return;
   const test = { id: new Date().toISOString() };
   actieveTest = test; laatsteTest = test;
-  wachtrij.stop(); ontgrendelAudio();
-  $('stemtest').disabled = true; $('test-beoordeling').hidden = true; $('losse-opname').hidden = true;
-  $('stemtest-status').textContent = 'Luister: na enkele seconden volgen twee zinnen…';
+  wachtrij.stop(); bestandsSpeler.route = 'gesprek'; ontgrendelAudio();
+  $('stemtest').disabled = true; $('test-beoordeling').hidden = true;
+  $('stemtest-status').textContent = 'Luister: eerst “Proef één”, daarna “Proef twee”. Sta de microfoon toe als daarom wordt gevraagd.';
   log('stemtest', { test_id: test.id, versie: VERSIE, rit: aan });
-  const a = await spreek('Snelheidsassistent geactiveerd.', test);
-  const b = a === 'afgerond' ? await spreek('Dit is een stemtest. Maximumsnelheid is vijftig kilometer per uur.', test) : a;
+  const een = await spreek('Proef één.', test);
+  bestandsSpeler.sluitGesprek();
+  log('stemtest_deel', { test_id: test.id, proef: 1, route: 'gesprek', speler: een });
+  if (!await wachtTest(3000, test)) return;
+  bestandsSpeler.route = 'microfoon';
+  const twee = await spreek('Proef twee.', test);
+  bestandsSpeler.sluitGesprek();
+  log('stemtest_deel', { test_id: test.id, proef: 2, route: 'microfoon', speler: twee });
   if (actieveTest !== test) return;
   actieveTest = null;
-  // 'speler' zegt alleen of de software klaar is; of iemand iets hoorde volgt uit hoorbaarheid_door_gebruiker.
-  log('stemtest_uitkomst', { test_id: test.id, versie: VERSIE, speler: b });
-  $('stemtest-status').textContent = b === 'afgerond' ? 'De speler is klaar. Heb je de stem zelf gehoord?' : 'Afspelen lukte niet. Je kunt hieronder de losse testopname openen.';
+  // 'speler_*' zegt alleen of de software klaar is; wat de gebruiker hoorde volgt uit hoorbaarheid_door_gebruiker.
+  log('stemtest_uitkomst', { test_id: test.id, versie: VERSIE, speler_1: een, speler_2: twee });
+  $('stemtest-status').textContent = 'Wat hoorde je via de Opel?';
   $('stemtest').disabled = false; $('test-beoordeling').hidden = false;
-  $('losse-opname').hidden = b === 'afgerond';
-  if (!aan || !instellingen.spraak) bestandsSpeler.stop();
-  else meldHuidigeLimiet();
+  bestandsSpeler.route = ritRoute();
+  if (aan && instellingen.spraak) { ontgrendelAudio(); meldHuidigeLimiet(); } else bestandsSpeler.stop();
 });
-for (const [id, antwoord] of [['test-ja', 'hoorbaar'], ['test-nee', 'niets']]) {
+for (const [id, antwoord, route] of [['hoorde-1', 'proef_1_gehoord', 'gesprek'], ['hoorde-2', 'alleen_proef_2', 'microfoon'], ['hoorde-niets', 'niets', 'media']]) {
   $(id).addEventListener('click', () => {
     if (!laatsteTest) return;
-    log('hoorbaarheid_door_gebruiker', { test_id: laatsteTest.id, versie: VERSIE, antwoord, ...bestandsSpeler.toestand() });
+    geluidsroute = route; geluidsrouteGetest = true;
+    try { localStorage.setItem('geluidsroute', route); } catch { /* geen opslag */ }
+    log('hoorbaarheid_door_gebruiker', { test_id: laatsteTest.id, versie: VERSIE, antwoord, gekozen_route: route });
     $('test-beoordeling').hidden = true;
-    $('losse-opname').hidden = antwoord !== 'niets';
-    $('stemtest-status').textContent = antwoord === 'hoorbaar' ? 'Bedankt, geluid gehoord. De test is opgeslagen.' : 'Open de losse testopname hieronder. Hoor je ook die niet? Deel dan het proeflog.';
+    $('stemtest-status').textContent = route === 'media'
+      ? 'Opgeslagen. Meldingen blijven via Bluetooth-audio gaan; zet de Opel dan op Bluetooth-media. Deel het proeflog.'
+      : 'Opgeslagen. Meldingen onderbreken nu de radio via de telefoonverbinding van de auto.';
+    toonRoute();
+    if (aan && instellingen.spraak) { bestandsSpeler.route = ritRoute(); ontgrendelAudio(); }
   });
 }
-$('losse-opname').addEventListener('click', () => {
-  log('losse_testopname', { test_id: laatsteTest?.id });
-});
 $('download').addEventListener('click', () => { $('download').disabled = true; navigator.storage?.persist?.().catch(() => {}); log('kaart_download_start'); worker.postMessage({ type: 'download' }); });
 $('wis-kaart').addEventListener('click', () => { if (confirm('Opgeslagen kaart van deze iPhone verwijderen?')) worker.postMessage({ type: 'wis_kaart' }); });
 $('deel-log').addEventListener('click', async () => {
@@ -334,6 +366,7 @@ $('deel-log').addEventListener('click', async () => {
   } catch (e) { if (e.name !== 'AbortError') alert('Delen mislukt: ' + e.message); }
 });
 $('versie').textContent = VERSIE;
-log('geopend', { versie: VERSIE, beveiligd: isSecureContext, standalone: matchMedia('(display-mode: standalone)').matches, wakeLock: 'wakeLock' in navigator, audioSession: 'audioSession' in navigator, mediaSession: 'mediaSession' in navigator, webAudio: Boolean(window.AudioContext ?? window.webkitAudioContext) });
+log('geopend', { versie: VERSIE, beveiligd: isSecureContext, standalone: matchMedia('(display-mode: standalone)').matches, wakeLock: 'wakeLock' in navigator, audioSession: 'audioSession' in navigator, mediaSession: 'mediaSession' in navigator, webAudio: Boolean(window.AudioContext ?? window.webkitAudioContext), geluidsroute, getest: geluidsrouteGetest });
+toonRoute();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(e => log('sw_fout', { bericht: e.message }));
 render();

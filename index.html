@@ -9,7 +9,7 @@
 <title>Snelheidsassistent</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon.png">
-<link rel="stylesheet" href="style.css?v=0.4">
+<link rel="stylesheet" href="style.css?v=0.5">
 </head>
 <body>
 <header>
@@ -32,14 +32,16 @@
   <section>
     <h3>Geluid</h3>
     <label class="rij schakelaar"><span>Wijzigingen uitspreken</span><input type="checkbox" id="spraak"></label>
-    <p class="klein">Kies in de Opel Bluetooth-audio/media. Test stilstaand; de rit mag aan blijven staan. Tijdens de rit loopt een onhoorbare mediastroom naar de auto, zodat de autoradio de stem direct doorlaat. Muziek vanaf deze iPhone pauzeert dan.</p>
+    <p class="klein">Test eenmalig stilstaand, met de Opel op de <strong>gewone radio</strong> (niet op Bluetooth-media). De test probeert de telefoonverbinding van de auto; jouw antwoord bepaalt hoe de meldingen voortaan klinken.</p>
+    <p id="geluidsroute" class="klein"></p>
     <button id="stemtest" type="button">Test geluid (stilstaand)</button>
     <p id="stemtest-status" class="klein" role="status"></p>
     <div id="test-beoordeling" hidden>
-      <button id="test-ja" type="button" class="secundair">Ja, ik hoorde de stem</button>
-      <button id="test-nee" type="button" class="secundair">Nee, geen geluid</button>
+      <button id="hoorde-1" type="button" class="secundair">Ik hoorde “Proef één”</button>
+      <button id="hoorde-2" type="button" class="secundair">Ik hoorde alleen “Proef twee”</button>
+      <button id="hoorde-niets" type="button" class="secundair">Ik hoorde niets</button>
     </div>
-    <p id="losse-opname" hidden><a href="audio/stemtest.m4a" target="_blank" rel="noopener">Open losse testopname</a></p>
+    <p class="klein">Safari stopt de locatie zodra het scherm vergrendeld is. Houd de app open met het scherm aan.</p>
   </section>
   <section>
     <h3>Offline kaart</h3>
@@ -59,6 +61,6 @@
   </section>
   </div>
 </dialog>
-<script type="module" src="app.mjs?v=0.4"></script>
+<script type="module" src="app.mjs?v=0.5"></script>
 </body>
 </html>

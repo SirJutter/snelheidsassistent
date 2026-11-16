@@ -8,3 +8,9 @@ draaggolf.m4a (16 november 2026, web 0.4): 10 seconden roze ruis op circa -70 dB
 gegenereerd met FFmpeg (anoisesrc), AAC 48 kbit/s mono. Geen opname van een persoon.
 Dient als onhoorbare, doorlopende mediastroom naar de Bluetooth-autoradio tijdens de rit.
 stilte.wav wordt sinds web 0.4 niet meer gebruikt en blijft alleen voor oude caches staan.
+
+Web 0.5 (16 november 2026): activatie.m4a, proef-1/2.m4a en alle limiet-*.m4a opnieuw gemaakt
+met dezelfde stem, eSpeak NG 1.52.0 "-v nl -s 155" (bytegelijk aan de oorspronkelijke WAV
+gecontroleerd), daarna FFmpeg loudnorm I=-16 TP=-1.5 en AAC 64 kbit/s, 44,1 kHz mono.
+Nieuwe teksten: "Snelheidsassistent is actief." en "De maximumsnelheid is N kilometer per uur."
+stemtest.m4a wordt niet meer gebruikt. Hashes en teksten staan in manifest.json.

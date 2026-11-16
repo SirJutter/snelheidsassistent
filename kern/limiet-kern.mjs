@@ -251,7 +251,7 @@ export class SpraakWachtrij {
     this.#verwerk();
   }
   meld(limiet) {
-    const nieuw = { soort: 'limiet', limiet, tekst: `Maximumsnelheid is ${limiet} kilometer per uur` };
+    const nieuw = { soort: 'limiet', limiet, tekst: `De maximumsnelheid is ${limiet} kilometer per uur.` };
     if (this.limiet) this.log('spraak_vervangen', { oud: this.limiet.limiet, nieuw: limiet });
     this.limiet = nieuw;
     if (!this.bezig) this.#verwerk();
@@ -264,7 +264,7 @@ export class SpraakWachtrij {
     try {
       while (ronde === this.ronde) {
         let item;
-        if (this.activatie) { item = { soort: 'activatie', limiet: null, tekst: 'Snelheidsassistent geactiveerd.' }; this.activatie = false; }
+        if (this.activatie) { item = { soort: 'activatie', limiet: null, tekst: 'Snelheidsassistent is actief.' }; this.activatie = false; }
         else if (this.limiet) { item = this.limiet; this.limiet = null; }
         else break;
         if (item.soort === 'limiet' && !this.isActueel(item)) { this.log('spraak_overgeslagen', { limiet: item.limiet, reden: 'niet_meer_actueel' }); continue; }

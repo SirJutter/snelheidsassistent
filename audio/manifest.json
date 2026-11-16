@@ -1,691 +1,701 @@
 {
-  "generator": "eSpeak NG 1.52.0",
+  "generator": "eSpeak NG 1.52.0 (-v nl -s 155), FFmpeg loudnorm I=-16 TP=-1.5, AAC 44,1 kHz mono",
   "taal": "nl",
   "bestanden": [
     {
       "bestand": "activatie.m4a",
-      "tekst": "Snelheidsassistent geactiveerd.",
-      "sha256": "0780e3354c8506e97e80961423bef51f8f3a03f5b9cccfceb2528633378be044"
+      "tekst": "Snelheidsassistent is actief.",
+      "sha256": "75dbb4f4e0394e22c6401fcf8046dcee981d6217bdac210f68e485800ef65503"
     },
     {
-      "bestand": "stemtest.m4a",
-      "tekst": "Dit is een stemtest. Maximumsnelheid is vijftig kilometer per uur.",
-      "sha256": "ded1a9161784b2effaf06f045a177ba7d95f58facea39a9e9e95d74dce82daff"
+      "bestand": "proef-1.m4a",
+      "tekst": "Proef één.",
+      "sha256": "c3270d834e52cf0b5738f8c3d0ac668a73e766c2ed32330fdd2831888806068c"
+    },
+    {
+      "bestand": "proef-2.m4a",
+      "tekst": "Proef twee.",
+      "sha256": "e71c2d35b2e913537601805190a49fc3c01a35c1c1fbe98ea7fe8af332e93dd8"
     },
     {
       "bestand": "limiet-1.m4a",
-      "tekst": "Maximumsnelheid is 1 kilometer per uur.",
-      "sha256": "0469b3db01c6debb2e2303cdf57d1d1cf75b551b52491dd65a45635bb71e416a"
+      "tekst": "De maximumsnelheid is 1 kilometer per uur.",
+      "sha256": "6d0c001aaa298689380a7532e2766f50cbea46ed22571f828a057c72cd0e6dd1"
     },
     {
       "bestand": "limiet-2.m4a",
-      "tekst": "Maximumsnelheid is 2 kilometer per uur.",
-      "sha256": "8093241d5691505bea03ee9a7132e508ccb6682f6a62f1ac861bcd3bf6138d1b"
+      "tekst": "De maximumsnelheid is 2 kilometer per uur.",
+      "sha256": "b68b29c48a017c6e94cca1c66c64be288072ecc3749ae38dfe92218eb784a6a0"
     },
     {
       "bestand": "limiet-3.m4a",
-      "tekst": "Maximumsnelheid is 3 kilometer per uur.",
-      "sha256": "1fe613dacb6109420a7778d0e2fb4de162611971e727df5189a3d75fc6554024"
+      "tekst": "De maximumsnelheid is 3 kilometer per uur.",
+      "sha256": "d35586bb200242a81845752879daffedab2f1288717f4ea13a76710dae93777a"
     },
     {
       "bestand": "limiet-4.m4a",
-      "tekst": "Maximumsnelheid is 4 kilometer per uur.",
-      "sha256": "4e9e0f4b334ecb771efeb00a71b918ca66310276c161f816bc860b9362431020"
+      "tekst": "De maximumsnelheid is 4 kilometer per uur.",
+      "sha256": "2bd344c02ab9ab06978073b00952ab4bf393edcea5360f16359fdcddf276bcbc"
     },
     {
       "bestand": "limiet-5.m4a",
-      "tekst": "Maximumsnelheid is 5 kilometer per uur.",
-      "sha256": "61438e502a070897792f9a71a0c7fd21ca9e167516cc4a5d72a565647ba9d298"
+      "tekst": "De maximumsnelheid is 5 kilometer per uur.",
+      "sha256": "6d1268a227b886e5617f8f9423bbf512308310940244116ecead33c36c387d3c"
     },
     {
       "bestand": "limiet-6.m4a",
-      "tekst": "Maximumsnelheid is 6 kilometer per uur.",
-      "sha256": "64581249c9a90e90573fe29af7806773470c8151b58e1303a54fdcfbd95376bd"
+      "tekst": "De maximumsnelheid is 6 kilometer per uur.",
+      "sha256": "34ae281c11453c4be424ac4e6a1be00a394452cb186d86e448859785e329ac4d"
     },
     {
       "bestand": "limiet-7.m4a",
-      "tekst": "Maximumsnelheid is 7 kilometer per uur.",
-      "sha256": "b762b07ceed805d501215685f0d01dc7915081bb13ddb20738041f70ec325185"
+      "tekst": "De maximumsnelheid is 7 kilometer per uur.",
+      "sha256": "79e8b5a283e0c1da4fa36d72532b08fbc44187011a0a7fd96fcec535c4dbd049"
     },
     {
       "bestand": "limiet-8.m4a",
-      "tekst": "Maximumsnelheid is 8 kilometer per uur.",
-      "sha256": "a2b16abedd987a3cc00bbafe5f97de63cf67af649bed9c36eaa34dbc1ab1a29f"
+      "tekst": "De maximumsnelheid is 8 kilometer per uur.",
+      "sha256": "333409df4d588f9b84046038e82df4a117867de95328c7d277a2c86a54fb47c1"
     },
     {
       "bestand": "limiet-9.m4a",
-      "tekst": "Maximumsnelheid is 9 kilometer per uur.",
-      "sha256": "9e851a0f04f591e7962f01b18ca41c1df9e81c0af3e2b3b7310396d167695e5d"
+      "tekst": "De maximumsnelheid is 9 kilometer per uur.",
+      "sha256": "be5d133ce049bd1334bd712eb6d09a3868491c0a30b551f9a0ea748f47d046da"
     },
     {
       "bestand": "limiet-10.m4a",
-      "tekst": "Maximumsnelheid is 10 kilometer per uur.",
-      "sha256": "2f72eb93f5c6e6b44c26ead911be736803f4dd6883181fdf8f8885c9539e81c1"
+      "tekst": "De maximumsnelheid is 10 kilometer per uur.",
+      "sha256": "6c114d6b70e6247b56502423a43aa706ab84a1587f10c412318c5aec9b2dc115"
     },
     {
       "bestand": "limiet-11.m4a",
-      "tekst": "Maximumsnelheid is 11 kilometer per uur.",
-      "sha256": "fc8e31341380ff8c309634a3330cf1bb2b7bcba3478845870e34f1c7945b2535"
+      "tekst": "De maximumsnelheid is 11 kilometer per uur.",
+      "sha256": "3cea6119d311cca8333e22af1d90fb3f8a97dee7a21e8e2327b7d13b3fe10fe7"
     },
     {
       "bestand": "limiet-12.m4a",
-      "tekst": "Maximumsnelheid is 12 kilometer per uur.",
-      "sha256": "15e2698d39db0f2e91a98f34d7e7bd8e66fe9c1c4d67c2efb89293b83d19f788"
+      "tekst": "De maximumsnelheid is 12 kilometer per uur.",
+      "sha256": "e983d432b21980d72214a9b40b49c7d7200916886e7ebdef1b5cac01591a4dca"
     },
     {
       "bestand": "limiet-13.m4a",
-      "tekst": "Maximumsnelheid is 13 kilometer per uur.",
-      "sha256": "61f8c5aaccef5f82a19f38567581f9580cd1ea79fdc3e6aaa5f934321f3cff2f"
+      "tekst": "De maximumsnelheid is 13 kilometer per uur.",
+      "sha256": "de00ad65da20367670fad70d461ca92588b0d07ad0b32523a800edc7e5b91e4a"
     },
     {
       "bestand": "limiet-14.m4a",
-      "tekst": "Maximumsnelheid is 14 kilometer per uur.",
-      "sha256": "39e81cd89a2af7ad5c15fa6f240b9acac416c7d1e56a884304af96cc655d60e8"
+      "tekst": "De maximumsnelheid is 14 kilometer per uur.",
+      "sha256": "54ea48e25c0106c7ce839e41546c0b1368ca1cdff26b38fc8b2974fefc397719"
     },
     {
       "bestand": "limiet-15.m4a",
-      "tekst": "Maximumsnelheid is 15 kilometer per uur.",
-      "sha256": "d0684c46102492bbd1d36fa71710d199dd97e68890a4342c0f6e91ed0a3dc898"
+      "tekst": "De maximumsnelheid is 15 kilometer per uur.",
+      "sha256": "e1bb05a37daf8b1fed69170d2c5bddf57d5ffddbd7c0d0fa21afd8f31b4c9e18"
     },
     {
       "bestand": "limiet-16.m4a",
-      "tekst": "Maximumsnelheid is 16 kilometer per uur.",
-      "sha256": "05bf14eef07d40162757f5f125907beeabadbc18ad382c6688199a10daef8b25"
+      "tekst": "De maximumsnelheid is 16 kilometer per uur.",
+      "sha256": "1354c1328eddb92f0ad77657c39306f00afa17469928fcbef62436804da42aa9"
     },
     {
       "bestand": "limiet-17.m4a",
-      "tekst": "Maximumsnelheid is 17 kilometer per uur.",
-      "sha256": "d29c8c6e86de35066b15a4a1a525001ce5a7abe99d0d0d8287ee965f1f01bc2a"
+      "tekst": "De maximumsnelheid is 17 kilometer per uur.",
+      "sha256": "9393868cbb05f22795d0382291164569d0fcedd464ae2a0225233021af8da441"
     },
     {
       "bestand": "limiet-18.m4a",
-      "tekst": "Maximumsnelheid is 18 kilometer per uur.",
-      "sha256": "497090a22904dd2d9859f95011b6e4f443a02dbcc24a779609ae3d60c026faaa"
+      "tekst": "De maximumsnelheid is 18 kilometer per uur.",
+      "sha256": "151a3c183270638c51869cebad776be3020b31cc03ff79e24c7f3feb76ab8d08"
     },
     {
       "bestand": "limiet-19.m4a",
-      "tekst": "Maximumsnelheid is 19 kilometer per uur.",
-      "sha256": "1053ce879be9347e375cdbffec9c19335f20770c95c9089fdc1ef54a8a820b52"
+      "tekst": "De maximumsnelheid is 19 kilometer per uur.",
+      "sha256": "e875e2c32479ada9779d52aa98b000ceb2898c47334c3464fce8c4ad2588f59f"
     },
     {
       "bestand": "limiet-20.m4a",
-      "tekst": "Maximumsnelheid is 20 kilometer per uur.",
-      "sha256": "f85132450082acf0ee54e36a819fcffaca01bf4079c78f07e5442b8f1be38045"
+      "tekst": "De maximumsnelheid is 20 kilometer per uur.",
+      "sha256": "c0d4813623868088567b685513fb860bdda7a7a838ccf0dba3df4bcb9945faef"
     },
     {
       "bestand": "limiet-21.m4a",
-      "tekst": "Maximumsnelheid is 21 kilometer per uur.",
-      "sha256": "61509bc7a4596ea02d763918501b896437c97512e6903b39af7523fab5be753e"
+      "tekst": "De maximumsnelheid is 21 kilometer per uur.",
+      "sha256": "1e3f0a6099e570244755828a6b7bf3b7d780fac74a0149297b87d210e68ff7ce"
     },
     {
       "bestand": "limiet-22.m4a",
-      "tekst": "Maximumsnelheid is 22 kilometer per uur.",
-      "sha256": "7752e6a0d0b8a44667330714248a713108ab46c81cdc9db671ab589761dff24b"
+      "tekst": "De maximumsnelheid is 22 kilometer per uur.",
+      "sha256": "ea4b289e3ee2d79f3b03435159a4381b01a0d6d42785f5b67aef86f40908d0de"
     },
     {
       "bestand": "limiet-23.m4a",
-      "tekst": "Maximumsnelheid is 23 kilometer per uur.",
-      "sha256": "28e4dee815ee315a0ae4c2f5450b49f862db9cf9fa980a9a78ba95182befbb45"
+      "tekst": "De maximumsnelheid is 23 kilometer per uur.",
+      "sha256": "99b13778d5925d8c482d18adeda0099dd37dba910931639f89b15ba9b3eef84e"
     },
     {
       "bestand": "limiet-24.m4a",
-      "tekst": "Maximumsnelheid is 24 kilometer per uur.",
-      "sha256": "a35dc96edf0ea1391ef676d2728ccd2c330975dd925622574be562ae543f3d05"
+      "tekst": "De maximumsnelheid is 24 kilometer per uur.",
+      "sha256": "c069bee80a94479544882605268a25761721fa4b295616ac992735efc6e51ecb"
     },
     {
       "bestand": "limiet-25.m4a",
-      "tekst": "Maximumsnelheid is 25 kilometer per uur.",
-      "sha256": "ea3443b99c21b4cad5f84728cc1ebd4a02aade7c625ec35024f99a2a00caf3d2"
+      "tekst": "De maximumsnelheid is 25 kilometer per uur.",
+      "sha256": "1bf2f67f5043d8bcfb000550861c3404ebe2d01e5e84808d3e1271796f5df911"
     },
     {
       "bestand": "limiet-26.m4a",
-      "tekst": "Maximumsnelheid is 26 kilometer per uur.",
-      "sha256": "c954ebbcc5528c65ba165062e32d7dc7dde316de54e8a1193cd7cda9eb6be2ce"
+      "tekst": "De maximumsnelheid is 26 kilometer per uur.",
+      "sha256": "a77ed9a88fb2f7b86fc7975a5b264b96a459eedec499cda507e4c52b1d220935"
     },
     {
       "bestand": "limiet-27.m4a",
-      "tekst": "Maximumsnelheid is 27 kilometer per uur.",
-      "sha256": "b3e7535b002d52ff7377025b8980df8c91bb67452b5e013251f02d81924d283f"
+      "tekst": "De maximumsnelheid is 27 kilometer per uur.",
+      "sha256": "ac90c25c5451c0ef7bf53bc2329e630309df48fe0fa4e22a27d61d0d92d48c3d"
     },
     {
       "bestand": "limiet-28.m4a",
-      "tekst": "Maximumsnelheid is 28 kilometer per uur.",
-      "sha256": "9ff8e5a0163b8b4c9d8d4c7ba20b83680996d297a181a665a7e56d3e174114ba"
+      "tekst": "De maximumsnelheid is 28 kilometer per uur.",
+      "sha256": "663e2967cb430d8ecc0f702727495b14e4bd1cf89cba7d56c5f2296985ed9669"
     },
     {
       "bestand": "limiet-29.m4a",
-      "tekst": "Maximumsnelheid is 29 kilometer per uur.",
-      "sha256": "6ecbf4ff5f4ad330b3f38ef600421eab013d3ba1c6d30b0666e894f7521585a7"
+      "tekst": "De maximumsnelheid is 29 kilometer per uur.",
+      "sha256": "36883a9b6c8a8481410af9df58c6348019831126bb96bf9c70475c761eef8d16"
     },
     {
       "bestand": "limiet-30.m4a",
-      "tekst": "Maximumsnelheid is 30 kilometer per uur.",
-      "sha256": "baf7474a8d02fe3d4c109952ccdd4cb4a66e78fac6fff5818f21c40d3ef97fd5"
+      "tekst": "De maximumsnelheid is 30 kilometer per uur.",
+      "sha256": "12770b9d4deaa1f557068c7ae6d7c4cba0a0fb6e63e02d2c4bd26ad2e498d6c2"
     },
     {
       "bestand": "limiet-31.m4a",
-      "tekst": "Maximumsnelheid is 31 kilometer per uur.",
-      "sha256": "5809e0ba566b3bc334858ca953681f73a93a9b817f6ccc4f399a3ac6da0ab0b5"
+      "tekst": "De maximumsnelheid is 31 kilometer per uur.",
+      "sha256": "1340fc0abdb563c9acb8f27086a032a2f655e185534df5d6b999091cb7961e66"
     },
     {
       "bestand": "limiet-32.m4a",
-      "tekst": "Maximumsnelheid is 32 kilometer per uur.",
-      "sha256": "f96ccd3b02b68b634c29742d3ad1d46059fa8d5f7bc6fc2581cb42211d2d6461"
+      "tekst": "De maximumsnelheid is 32 kilometer per uur.",
+      "sha256": "a426af9458a6231a3b826ce413b8035f826f7b2529c51ce85020cb44ceba1ac7"
     },
     {
       "bestand": "limiet-33.m4a",
-      "tekst": "Maximumsnelheid is 33 kilometer per uur.",
-      "sha256": "a16abd3e87ea97bf84aa511c0f15358f1b1a7655a97a833f998f5542eb179ef0"
+      "tekst": "De maximumsnelheid is 33 kilometer per uur.",
+      "sha256": "e14a13c527c60681fafb01832129934821210e31f76668c0ef29effd6866dda9"
     },
     {
       "bestand": "limiet-34.m4a",
-      "tekst": "Maximumsnelheid is 34 kilometer per uur.",
-      "sha256": "585615234f274714c105c1324ba3f69bb59d001a20519b3973d5afe221a14d76"
+      "tekst": "De maximumsnelheid is 34 kilometer per uur.",
+      "sha256": "97e999c2ebc845a83d4ef11a6eaac917157742ef944df3cf13c2e35636c4e91a"
     },
     {
       "bestand": "limiet-35.m4a",
-      "tekst": "Maximumsnelheid is 35 kilometer per uur.",
-      "sha256": "37bbb9bd9395068406c5fa9c53084a0d7e0b6046033bbf9aebf4df77c762b52a"
+      "tekst": "De maximumsnelheid is 35 kilometer per uur.",
+      "sha256": "dc907d4d6ef2cbc811bebcbe6c52efa90aa1f0a8602f12e920da0de8a4830ab2"
     },
     {
       "bestand": "limiet-36.m4a",
-      "tekst": "Maximumsnelheid is 36 kilometer per uur.",
-      "sha256": "0abb3a9f2a6176aff0e64e0d351d367c4c1c98f3a543418adc765b3a8306fcd2"
+      "tekst": "De maximumsnelheid is 36 kilometer per uur.",
+      "sha256": "abb7c7d0c36d4922ddc03532665874c4029d1adb2f0de9c3a3945b795027de5b"
     },
     {
       "bestand": "limiet-37.m4a",
-      "tekst": "Maximumsnelheid is 37 kilometer per uur.",
-      "sha256": "70be530ff0adeac81f0f309c280d91facdd7f5126e20cf9971f83a37494494c4"
+      "tekst": "De maximumsnelheid is 37 kilometer per uur.",
+      "sha256": "2db2c604041a522bf146d052bc0a0f919c3b901abc3c64349911884f026bc5c0"
     },
     {
       "bestand": "limiet-38.m4a",
-      "tekst": "Maximumsnelheid is 38 kilometer per uur.",
-      "sha256": "2d3727296c9f0ecd0f7bd21ef5449277280c0c40aec72e15d08bf989d9bfbe36"
+      "tekst": "De maximumsnelheid is 38 kilometer per uur.",
+      "sha256": "7a464a276e56fca4901e382b38ee7f4c23aa7a779215d5c0d9fb657d7ba715ef"
     },
     {
       "bestand": "limiet-39.m4a",
-      "tekst": "Maximumsnelheid is 39 kilometer per uur.",
-      "sha256": "2e5936f823dbf4b0417152b19db353acaf78b1ea12bd73598613f6e07a15f217"
+      "tekst": "De maximumsnelheid is 39 kilometer per uur.",
+      "sha256": "aeacf88320229b18a2d2ecd26826b113c3089fd0bd113210c23f73162fb0d63e"
     },
     {
       "bestand": "limiet-40.m4a",
-      "tekst": "Maximumsnelheid is 40 kilometer per uur.",
-      "sha256": "645a86d17fd2072dae4ed50d0bf2e6409ed8e71fd7207f1a631e173b533ec9c6"
+      "tekst": "De maximumsnelheid is 40 kilometer per uur.",
+      "sha256": "6bbbe2e5f5f2c3e32a7fcb98267ff8c83b0852a8732c206bb5cb4d1c650602f5"
     },
     {
       "bestand": "limiet-41.m4a",
-      "tekst": "Maximumsnelheid is 41 kilometer per uur.",
-      "sha256": "d6b5dabd121f180c578c29f9d85ff38bb11b380fe88bbedd698d4157a783ceec"
+      "tekst": "De maximumsnelheid is 41 kilometer per uur.",
+      "sha256": "bcf6458762e6274ddab9ef5fae0f71bb4f82e915e3c52eb97c059c98072c39fe"
     },
     {
       "bestand": "limiet-42.m4a",
-      "tekst": "Maximumsnelheid is 42 kilometer per uur.",
-      "sha256": "bb3988d29273984323962d2a5e18267715d1926410b8a589a11b86fb2fb8040d"
+      "tekst": "De maximumsnelheid is 42 kilometer per uur.",
+      "sha256": "1790a46ebc489b65d9d0aa0bc6c3e91997e76aab56b30ec1bd5693a10b4adf59"
     },
     {
       "bestand": "limiet-43.m4a",
-      "tekst": "Maximumsnelheid is 43 kilometer per uur.",
-      "sha256": "ae670e44bb2347959a44c365beb8c958465d21cda99b3ab69241c34a103fd1ad"
+      "tekst": "De maximumsnelheid is 43 kilometer per uur.",
+      "sha256": "87373a4336e9ed64ca8a35c22c58c65d680fcbce11d9c55ff267667af9b48d16"
     },
     {
       "bestand": "limiet-44.m4a",
-      "tekst": "Maximumsnelheid is 44 kilometer per uur.",
-      "sha256": "1e809594625854d185b8eb5738bfb59d187dfa05bf1f1e88abaac9202ff2b906"
+      "tekst": "De maximumsnelheid is 44 kilometer per uur.",
+      "sha256": "f8a10486aa3aba0ed11b43c70b2e2cf74ec8fb61ba27aaa85dd4a7c21847f923"
     },
     {
       "bestand": "limiet-45.m4a",
-      "tekst": "Maximumsnelheid is 45 kilometer per uur.",
-      "sha256": "bbac3e7d4289483e51a340efb83133ede4985990c308a15916d341bd98ba397d"
+      "tekst": "De maximumsnelheid is 45 kilometer per uur.",
+      "sha256": "7b4117fca3e0940790893e699318a84e2773cb35d7d11f3899c7b92eafc4992d"
     },
     {
       "bestand": "limiet-46.m4a",
-      "tekst": "Maximumsnelheid is 46 kilometer per uur.",
-      "sha256": "928e0992c622b1da4e3cae72e123fb24c921b7dc04d7885c56a93a19eee63305"
+      "tekst": "De maximumsnelheid is 46 kilometer per uur.",
+      "sha256": "0c90b68c0061f2d4bb926f96447640baf40f98c9baa5586480ac2caf3ce3e9cf"
     },
     {
       "bestand": "limiet-47.m4a",
-      "tekst": "Maximumsnelheid is 47 kilometer per uur.",
-      "sha256": "1e8e37fe2eba50a304bf988797cdf513c3f34a6290f2aeb4fdfc2f066ac57126"
+      "tekst": "De maximumsnelheid is 47 kilometer per uur.",
+      "sha256": "b8831e0549b0e818279e8d1abcf1886fbe546470af904d74145c7f930cf2a47c"
     },
     {
       "bestand": "limiet-48.m4a",
-      "tekst": "Maximumsnelheid is 48 kilometer per uur.",
-      "sha256": "68a4aa9842a57bb593b7477c1937864deeae845bcb114cef08e0bf24bf0f306d"
+      "tekst": "De maximumsnelheid is 48 kilometer per uur.",
+      "sha256": "ef559c5760ce56aff74f9383f1e454c0a8a56c2506de0e52df270b2bf38b5aef"
     },
     {
       "bestand": "limiet-49.m4a",
-      "tekst": "Maximumsnelheid is 49 kilometer per uur.",
-      "sha256": "ce7c28cd117c48554b5b917b2049e9be7fcde2949097c48e076215df79d38760"
+      "tekst": "De maximumsnelheid is 49 kilometer per uur.",
+      "sha256": "7bf2ff7332953bd60e74c9d250c4271b694877129b4c1892d114942373858d70"
     },
     {
       "bestand": "limiet-50.m4a",
-      "tekst": "Maximumsnelheid is 50 kilometer per uur.",
-      "sha256": "bc93db4f8aa847fc3ed5aa19d0c055f513ed15bcdf1e1eafe1bd0bb69a2e6adb"
+      "tekst": "De maximumsnelheid is 50 kilometer per uur.",
+      "sha256": "8937a9e1b89e5799fd20edae1820acc5233c939c6d38a63dbeeed7a2a1f1ef30"
     },
     {
       "bestand": "limiet-51.m4a",
-      "tekst": "Maximumsnelheid is 51 kilometer per uur.",
-      "sha256": "6fc0053f4645cacb1f5a21ab8194f798380941bbb555c0aa10f4e906e7d1aa54"
+      "tekst": "De maximumsnelheid is 51 kilometer per uur.",
+      "sha256": "002f970d9f70859c677d9b234b76ee21b3ba7c00c34f13d30bf393df9e063188"
     },
     {
       "bestand": "limiet-52.m4a",
-      "tekst": "Maximumsnelheid is 52 kilometer per uur.",
-      "sha256": "8d327688262047e9f53e697ff373aebea3d912caa79f70ab098f17f1dcb093f4"
+      "tekst": "De maximumsnelheid is 52 kilometer per uur.",
+      "sha256": "ba3ce04ddf71a588d99663643fe23e0f2aefda2e4657ff2f45d6184629d9a256"
     },
     {
       "bestand": "limiet-53.m4a",
-      "tekst": "Maximumsnelheid is 53 kilometer per uur.",
-      "sha256": "bc829e7ae96ccf54976a7079f915e52e50ee8fa6f95a48566d4e2a43ec5d0417"
+      "tekst": "De maximumsnelheid is 53 kilometer per uur.",
+      "sha256": "5a22cfc4e61d79424ead1848f9e7349085d2fa4fd2503b90f74e6b0b7b646f8b"
     },
     {
       "bestand": "limiet-54.m4a",
-      "tekst": "Maximumsnelheid is 54 kilometer per uur.",
-      "sha256": "781827dc45a8534696c59c564ebd3599392092da52c34144cbb995bb5ae6e1ad"
+      "tekst": "De maximumsnelheid is 54 kilometer per uur.",
+      "sha256": "d7bb6f0316feb6ad34b66db853e0c00b0cb9c8c239224200579a06d4909a8916"
     },
     {
       "bestand": "limiet-55.m4a",
-      "tekst": "Maximumsnelheid is 55 kilometer per uur.",
-      "sha256": "b37cc54673ca7e100fa694360dd920e0903cfa3f2d5ac85588f37832a1f1e545"
+      "tekst": "De maximumsnelheid is 55 kilometer per uur.",
+      "sha256": "4f37df6a182b6f1ed7e87c091c94a14b3bccda2fe85e772ccb7ee8d0f3179c87"
     },
     {
       "bestand": "limiet-56.m4a",
-      "tekst": "Maximumsnelheid is 56 kilometer per uur.",
-      "sha256": "7634ed829eef75073ea350221a88067fb062a93b756517b30c26cfc0082589a1"
+      "tekst": "De maximumsnelheid is 56 kilometer per uur.",
+      "sha256": "db834a655af8896ed9e470103da0ac93b889a938820192c2d5b52a16f8080559"
     },
     {
       "bestand": "limiet-57.m4a",
-      "tekst": "Maximumsnelheid is 57 kilometer per uur.",
-      "sha256": "174550b3cabb48a5bfb48afd96c00c81a9f8c666710bde7439a0c4d8244953a0"
+      "tekst": "De maximumsnelheid is 57 kilometer per uur.",
+      "sha256": "8a9287a3a497e52737a69571a73fbebd4ed92c6c251a80324be68d4fb01b813b"
     },
     {
       "bestand": "limiet-58.m4a",
-      "tekst": "Maximumsnelheid is 58 kilometer per uur.",
-      "sha256": "f6e528b766f3735d7291c35661fe4402aced51a67df8852114e32cd1624df0d7"
+      "tekst": "De maximumsnelheid is 58 kilometer per uur.",
+      "sha256": "7256ba8c6b8f62e166ffa695ec314cf3ded22c5d2f113ed9a7b4836044730597"
     },
     {
       "bestand": "limiet-59.m4a",
-      "tekst": "Maximumsnelheid is 59 kilometer per uur.",
-      "sha256": "3d574940c1d434c48c7597242488ce41964afb08429b8da337c7a250abf5f0ca"
+      "tekst": "De maximumsnelheid is 59 kilometer per uur.",
+      "sha256": "62fa65f1bfe276e4eb3bcbc4fea7cad72ca4df8389147d7b12646c427d682e18"
     },
     {
       "bestand": "limiet-60.m4a",
-      "tekst": "Maximumsnelheid is 60 kilometer per uur.",
-      "sha256": "42783ab997b00b8458147c56df91d0351038544af9aa86d48a8b455fc1a3f448"
+      "tekst": "De maximumsnelheid is 60 kilometer per uur.",
+      "sha256": "808da919b14ff2a9cf87d224dfadcda288712e635c1cb85eea1f40ccf0ce4477"
     },
     {
       "bestand": "limiet-61.m4a",
-      "tekst": "Maximumsnelheid is 61 kilometer per uur.",
-      "sha256": "f356f5cf5f1f7ec8025386c79236c798731373810d07e9289ecc5c162b1afbcb"
+      "tekst": "De maximumsnelheid is 61 kilometer per uur.",
+      "sha256": "61613b1bdabcd17d42081557ea9d3a52ad83c2eebaee7528f2e051f2b6a8bece"
     },
     {
       "bestand": "limiet-62.m4a",
-      "tekst": "Maximumsnelheid is 62 kilometer per uur.",
-      "sha256": "9c91297038cb662bc7e9c15c388d848c0ec7cc7d52da27dca0c31c79f663e858"
+      "tekst": "De maximumsnelheid is 62 kilometer per uur.",
+      "sha256": "67578719337946e52007aa5f602759439f05ee327c0071787eefe2a28a07cf9e"
     },
     {
       "bestand": "limiet-63.m4a",
-      "tekst": "Maximumsnelheid is 63 kilometer per uur.",
-      "sha256": "de79203cce7318c341c3a8863f1d8e7d5f181c6010c9a010a73421d80954a2b4"
+      "tekst": "De maximumsnelheid is 63 kilometer per uur.",
+      "sha256": "0218dbfb2d94d36ca16b14cf2b9d8c7f9f17c1ef069fd642a03f6a107d239541"
     },
     {
       "bestand": "limiet-64.m4a",
-      "tekst": "Maximumsnelheid is 64 kilometer per uur.",
-      "sha256": "2bf3583392dbaad5ca60b55ba7ef4d24cda96915efea13f429095c1a176ce3d6"
+      "tekst": "De maximumsnelheid is 64 kilometer per uur.",
+      "sha256": "6ffc14fd244f4886ddf22a780e99296377e32c5aab7c0a6bcc9634f5ba07acfd"
     },
     {
       "bestand": "limiet-65.m4a",
-      "tekst": "Maximumsnelheid is 65 kilometer per uur.",
-      "sha256": "1f7c0be66d5fbef513e365216b51bcf1830e82ef371a3d213c4c0cdc79771288"
+      "tekst": "De maximumsnelheid is 65 kilometer per uur.",
+      "sha256": "86554b17a4c4132a03a9f68906c5ccd89c883181e77359870bd19c26880dc556"
     },
     {
       "bestand": "limiet-66.m4a",
-      "tekst": "Maximumsnelheid is 66 kilometer per uur.",
-      "sha256": "7f5902e8f7bccbb1a8dd65b1093a85aebeb5071e05344d66e5dcae6a1d19f5b0"
+      "tekst": "De maximumsnelheid is 66 kilometer per uur.",
+      "sha256": "ef8a8524957a8fc7ee1ef1d5d8857259fcbeb97539cd06227723ceec35c642c8"
     },
     {
       "bestand": "limiet-67.m4a",
-      "tekst": "Maximumsnelheid is 67 kilometer per uur.",
-      "sha256": "7a16c35f766ab0675d995217cc3c848b0f70c2b7aae243bc7896a71d1920da68"
+      "tekst": "De maximumsnelheid is 67 kilometer per uur.",
+      "sha256": "da375f77544e28813f904dff84e87f132473508ce3463f23a9a706b35206c53f"
     },
     {
       "bestand": "limiet-68.m4a",
-      "tekst": "Maximumsnelheid is 68 kilometer per uur.",
-      "sha256": "38505ea178c56c0c4af1e8e44d57f8e79f91ec2014f471ba781b359fb6b4790c"
+      "tekst": "De maximumsnelheid is 68 kilometer per uur.",
+      "sha256": "e8408540708d875a1f5ef7595f017144461c30d55d435c2bf1decda3505450f7"
     },
     {
       "bestand": "limiet-69.m4a",
-      "tekst": "Maximumsnelheid is 69 kilometer per uur.",
-      "sha256": "4d37a49af8908e83bb4025f1e1e78727d7ad98199c8b3234b685398959308eed"
+      "tekst": "De maximumsnelheid is 69 kilometer per uur.",
+      "sha256": "7ffd51a3190c602ab3b6266d3434b151e6e9bcd1ea4cd12e94acefe15f3aba8a"
     },
     {
       "bestand": "limiet-70.m4a",
-      "tekst": "Maximumsnelheid is 70 kilometer per uur.",
-      "sha256": "0338eebbc757e98232ccbf20c9bd654c689344dfa7a7e619bbdb2c5884e0870c"
+      "tekst": "De maximumsnelheid is 70 kilometer per uur.",
+      "sha256": "77cf3d2c17d92c56e57eaa7aeb78d785c62bddc902e7045ad61ac38bd0d3baeb"
     },
     {
       "bestand": "limiet-71.m4a",
-      "tekst": "Maximumsnelheid is 71 kilometer per uur.",
-      "sha256": "436f9b7542ba0b634bd08ef01e7c033a8daa60a4472d5a36b7086d2f65686cef"
+      "tekst": "De maximumsnelheid is 71 kilometer per uur.",
+      "sha256": "47f426c9e29a3c5edf09fef80e7a9d295bd21c28b4ead7cdda8fd68fcc2c6ae0"
     },
     {
       "bestand": "limiet-72.m4a",
-      "tekst": "Maximumsnelheid is 72 kilometer per uur.",
-      "sha256": "32e2c1061f95a7e677ffd6c66f9f8fbcd409f706222e7caee1e1b8920412213d"
+      "tekst": "De maximumsnelheid is 72 kilometer per uur.",
+      "sha256": "17d27142fb744445dc2318145bf8eb7015684aa79030aca4a13b19151f1d4d91"
     },
     {
       "bestand": "limiet-73.m4a",
-      "tekst": "Maximumsnelheid is 73 kilometer per uur.",
-      "sha256": "5f87fb0ada0294a5a03daba5d779fa6c555a3237ee2c417152146fa733fd7ff5"
+      "tekst": "De maximumsnelheid is 73 kilometer per uur.",
+      "sha256": "240e978104ecf5a33c5fe4491309b6fe7a97776b7836da6bea9e24a9f528ede5"
     },
     {
       "bestand": "limiet-74.m4a",
-      "tekst": "Maximumsnelheid is 74 kilometer per uur.",
-      "sha256": "83d3c0f5f940ec3b4246d243c60c261f1d8a3dc3f4a36a78a03b8498d35ed4bc"
+      "tekst": "De maximumsnelheid is 74 kilometer per uur.",
+      "sha256": "7b436cf816b31c630348b4d618b488fd10a736683c1cf528ae81b2314429c8e6"
     },
     {
       "bestand": "limiet-75.m4a",
-      "tekst": "Maximumsnelheid is 75 kilometer per uur.",
-      "sha256": "7c617963ccee80de50976d0e0517f0be3c689881e634ad31e5ba876ef7462138"
+      "tekst": "De maximumsnelheid is 75 kilometer per uur.",
+      "sha256": "493a6ee2305e840f5753e4b3212893e7ee16a619b60cfcc927426fbc8e750ac0"
     },
     {
       "bestand": "limiet-76.m4a",
-      "tekst": "Maximumsnelheid is 76 kilometer per uur.",
-      "sha256": "8c6bd937cd018ada0c771b156ec31e884120de81508f137d94a5ff02605b2138"
+      "tekst": "De maximumsnelheid is 76 kilometer per uur.",
+      "sha256": "731f1c7d014f4eb3cc4fb71eee857770d93c4205de2ae6260030c8530ebbe8bb"
     },
     {
       "bestand": "limiet-77.m4a",
-      "tekst": "Maximumsnelheid is 77 kilometer per uur.",
-      "sha256": "c77915d071bf656badfebda18cc2bd5725cdfbe62034e17866bcf8683f44942d"
+      "tekst": "De maximumsnelheid is 77 kilometer per uur.",
+      "sha256": "bc6f6e1ceb86ee70932352967ccea0b90afcbaa084117c62562986085387604d"
     },
     {
       "bestand": "limiet-78.m4a",
-      "tekst": "Maximumsnelheid is 78 kilometer per uur.",
-      "sha256": "9f1daefaf8a9094aa15b8eab49451f7d930a5e1b7c588408a011132a6cb290f7"
+      "tekst": "De maximumsnelheid is 78 kilometer per uur.",
+      "sha256": "f5a9ba0cdd9714f266c071bdc7fb08a6fc448a0e874c83f9acfe7633436463c6"
     },
     {
       "bestand": "limiet-79.m4a",
-      "tekst": "Maximumsnelheid is 79 kilometer per uur.",
-      "sha256": "d45b112933aecaf0c6dc86157da75f69811f0e3dc98f522601c4775b888104fd"
+      "tekst": "De maximumsnelheid is 79 kilometer per uur.",
+      "sha256": "0e1f729dc7c3fd9a6ff170a9442993da432a8860fc56ca19004a817deb2c4b96"
     },
     {
       "bestand": "limiet-80.m4a",
-      "tekst": "Maximumsnelheid is 80 kilometer per uur.",
-      "sha256": "e29d65ca20b4347c1725d531dd0804b3e46147f8242197e832e66ded2294e094"
+      "tekst": "De maximumsnelheid is 80 kilometer per uur.",
+      "sha256": "58acaf55069ab5f5ab59a3de74227fd25042989d01967d03663c3e5034fa912f"
     },
     {
       "bestand": "limiet-81.m4a",
-      "tekst": "Maximumsnelheid is 81 kilometer per uur.",
-      "sha256": "e095f0863cf28955986942960a662654926b2040b3b7180627784ca8c3a9b62d"
+      "tekst": "De maximumsnelheid is 81 kilometer per uur.",
+      "sha256": "225a522b73fced193764e339409b2ff811ed6a3f35bdcf3464bfecb089970d30"
     },
     {
       "bestand": "limiet-82.m4a",
-      "tekst": "Maximumsnelheid is 82 kilometer per uur.",
-      "sha256": "c3c9ffee88ffe4315e440abf365d05da951c42a860df9403ced39dcb40a9dea5"
+      "tekst": "De maximumsnelheid is 82 kilometer per uur.",
+      "sha256": "e957f91b4fa3d6989e3206ece3b87a5939b3c37c7990f5e38925f779bb8f02ac"
     },
     {
       "bestand": "limiet-83.m4a",
-      "tekst": "Maximumsnelheid is 83 kilometer per uur.",
-      "sha256": "9c9ccf5c332f7fe09e4a48454075ac6fddf5f0c49452fc2555a177956b13970d"
+      "tekst": "De maximumsnelheid is 83 kilometer per uur.",
+      "sha256": "52d6ca72bc5fb0bb6e371e3131511a62558b98a4a5e241c1cfa1241379a9278b"
     },
     {
       "bestand": "limiet-84.m4a",
-      "tekst": "Maximumsnelheid is 84 kilometer per uur.",
-      "sha256": "81e7b5d4315bf567f57f0806e82925342705204cf250b093c0e339c8d74852d8"
+      "tekst": "De maximumsnelheid is 84 kilometer per uur.",
+      "sha256": "4e204729658a517833cd3de42ce3f884f3ad21eef4060d6023efaf70ef9bfd87"
     },
     {
       "bestand": "limiet-85.m4a",
-      "tekst": "Maximumsnelheid is 85 kilometer per uur.",
-      "sha256": "31edfd55eae8864b2ef1b070d6cba599e9e2f8b97eba4271b06da580da9aa7a4"
+      "tekst": "De maximumsnelheid is 85 kilometer per uur.",
+      "sha256": "4647676f56bdc968496eea293a22ff9e46ebb73b9c85fce7fcf4ea5982ab1883"
     },
     {
       "bestand": "limiet-86.m4a",
-      "tekst": "Maximumsnelheid is 86 kilometer per uur.",
-      "sha256": "297b8f01c0ca62f86493a3b1e4e706d70caa3c06589dcf6b7115742dd99def12"
+      "tekst": "De maximumsnelheid is 86 kilometer per uur.",
+      "sha256": "9aa17951353566b059e44d956a98ceec919f4730cea6ee459b71e3c8f65ee5e7"
     },
     {
       "bestand": "limiet-87.m4a",
-      "tekst": "Maximumsnelheid is 87 kilometer per uur.",
-      "sha256": "5e061e39d15ae13589614c4af98ba4604b245c8156e10624f54925061a2f09cd"
+      "tekst": "De maximumsnelheid is 87 kilometer per uur.",
+      "sha256": "d4a0a54f9179b01626247162dc09cae72543d0e7e39d6c06b74a7e665e27f444"
     },
     {
       "bestand": "limiet-88.m4a",
-      "tekst": "Maximumsnelheid is 88 kilometer per uur.",
-      "sha256": "9130d02ef0e04382bdaa3fb3bc7e6577be86742cb63f51468693026011a70cc6"
+      "tekst": "De maximumsnelheid is 88 kilometer per uur.",
+      "sha256": "c75c5c6797b57247e32777fb4de96715271776987daec80a17db2121baf9d4dd"
     },
     {
       "bestand": "limiet-89.m4a",
-      "tekst": "Maximumsnelheid is 89 kilometer per uur.",
-      "sha256": "0cdf686bd828c328527a7a5618c988eec2d8bd732a9e879575ffc5e7e2a3d867"
+      "tekst": "De maximumsnelheid is 89 kilometer per uur.",
+      "sha256": "d2d1f799341818d0d468e5725876a7363afb16a0d401aeebaf81d25ad041ef03"
     },
     {
       "bestand": "limiet-90.m4a",
-      "tekst": "Maximumsnelheid is 90 kilometer per uur.",
-      "sha256": "f9828597d501c175e1fd58a7b8bebcbfa7c52e6b64b4ff305a3d7e140c01a156"
+      "tekst": "De maximumsnelheid is 90 kilometer per uur.",
+      "sha256": "5e93d352e295025f3628a996c2156992da165f173eeac140a11662a80ad2fc66"
     },
     {
       "bestand": "limiet-91.m4a",
-      "tekst": "Maximumsnelheid is 91 kilometer per uur.",
-      "sha256": "d42050171fdd16fa9f4dedadfe16e909bf8b2e674d50e61f49225fa782dff628"
+      "tekst": "De maximumsnelheid is 91 kilometer per uur.",
+      "sha256": "75d8d9eb1e4fa6cd4cedfe59abc991f954e64534f4cd08999a917d3bdb83d40b"
     },
     {
       "bestand": "limiet-92.m4a",
-      "tekst": "Maximumsnelheid is 92 kilometer per uur.",
-      "sha256": "c5f7f2332620f267d4790903f97ec9d58a7b17e832c68e3cdaf7bc8d458af6d8"
+      "tekst": "De maximumsnelheid is 92 kilometer per uur.",
+      "sha256": "401354dfa6f256c1a3dea7752a61091db518e50cc2d027cf6e13c583b2267c3c"
     },
     {
       "bestand": "limiet-93.m4a",
-      "tekst": "Maximumsnelheid is 93 kilometer per uur.",
-      "sha256": "cc9e6411bbf95a46a5d956e6658ca840b4cd1bf19919c37fd09f14ecf154e42e"
+      "tekst": "De maximumsnelheid is 93 kilometer per uur.",
+      "sha256": "085823b70542d8e9deb1d798f214e7f1d762578757a6efede895366747a70448"
     },
     {
       "bestand": "limiet-94.m4a",
-      "tekst": "Maximumsnelheid is 94 kilometer per uur.",
-      "sha256": "893e677e34d854b2e8da1801f849302d8f491e9e390c4962ed0ab8dcdcbb7b4d"
+      "tekst": "De maximumsnelheid is 94 kilometer per uur.",
+      "sha256": "4e218545a88715ebb160c4b044d9ef6a59e1a552548f49f1175e6a5bcca0988e"
     },
     {
       "bestand": "limiet-95.m4a",
-      "tekst": "Maximumsnelheid is 95 kilometer per uur.",
-      "sha256": "607aa16daefdcff32be3a0e67f65aeba5389a284e18f9a0f1556bb4812af7032"
+      "tekst": "De maximumsnelheid is 95 kilometer per uur.",
+      "sha256": "32b9a8d3793b7714129ec868119e3f6d9a73dd5c01281f22b7a6a64b074dce34"
     },
     {
       "bestand": "limiet-96.m4a",
-      "tekst": "Maximumsnelheid is 96 kilometer per uur.",
-      "sha256": "17ff67c17c674bf35ff4ffa3b4cdc8ae7d4798c819ae27ac93927f93831d72eb"
+      "tekst": "De maximumsnelheid is 96 kilometer per uur.",
+      "sha256": "c74d4437c8eb9130604bb4556648b893ed359679c42636423146ddaa9d0e7c0c"
     },
     {
       "bestand": "limiet-97.m4a",
-      "tekst": "Maximumsnelheid is 97 kilometer per uur.",
-      "sha256": "eb30994b34a6097ff1aa7f2dd0bb409023af6d4a1aca05787cf1e5504b790d04"
+      "tekst": "De maximumsnelheid is 97 kilometer per uur.",
+      "sha256": "b3ceabe8c4341fb9d7b486a923c1866870d6501e5676a414834ca5ea51f1162f"
     },
     {
       "bestand": "limiet-98.m4a",
-      "tekst": "Maximumsnelheid is 98 kilometer per uur.",
-      "sha256": "dec0c02810325d4ec67cb9f8e674d7edb59ef2caffa7810d42f563c7e67835fc"
+      "tekst": "De maximumsnelheid is 98 kilometer per uur.",
+      "sha256": "a522131009680c5af336c12f11a8f0e22c39f40a9d524b9cc9a37ddc38c07851"
     },
     {
       "bestand": "limiet-99.m4a",
-      "tekst": "Maximumsnelheid is 99 kilometer per uur.",
-      "sha256": "90029f80a3453568277b2e7859f3ee52dcd121ce133313284701877275551ec3"
+      "tekst": "De maximumsnelheid is 99 kilometer per uur.",
+      "sha256": "872342ea747362029590a9a119bad084358ce537d44945f666d16550bbc3aba9"
     },
     {
       "bestand": "limiet-100.m4a",
-      "tekst": "Maximumsnelheid is 100 kilometer per uur.",
-      "sha256": "42f1fc32af7e00dbef11514c682251686d2b6e84aac8cfbc1f00c4c523f74c29"
+      "tekst": "De maximumsnelheid is 100 kilometer per uur.",
+      "sha256": "b12ad52a2ef48f4a57c584332380072e7d8019cfffa3f0f265846de9bf542bb7"
     },
     {
       "bestand": "limiet-101.m4a",
-      "tekst": "Maximumsnelheid is 101 kilometer per uur.",
-      "sha256": "35165dbb797a333063986e8cdd732fbe6c018f928770e16e6472b92f9d93df50"
+      "tekst": "De maximumsnelheid is 101 kilometer per uur.",
+      "sha256": "1c56d89de609b9c7d396ba2508c256aae580a45386577e3b91adae07cf8c42f0"
     },
     {
       "bestand": "limiet-102.m4a",
-      "tekst": "Maximumsnelheid is 102 kilometer per uur.",
-      "sha256": "2478d8b0422db6b7b4583f98edf3c8967840a65f05b669dfc02c53422e61c660"
+      "tekst": "De maximumsnelheid is 102 kilometer per uur.",
+      "sha256": "8a7208faabe7466cf84a7c7fb2eb3830e89d1368742b80f3dfad229f1c7d41d1"
     },
     {
       "bestand": "limiet-103.m4a",
-      "tekst": "Maximumsnelheid is 103 kilometer per uur.",
-      "sha256": "7c062ced4e0edf82a3a755b2fa41fb9511655b13aaf6db5a511b62e5f7d84973"
+      "tekst": "De maximumsnelheid is 103 kilometer per uur.",
+      "sha256": "e2c47254d63ec3d9694d3c12e74a008d9ee1bf04642637af28c09bf0bb8187fa"
     },
     {
       "bestand": "limiet-104.m4a",
-      "tekst": "Maximumsnelheid is 104 kilometer per uur.",
-      "sha256": "f5669194da635c66cae0051d36fc0aa9da8f8dc343a4cf34abb57cda5fb37de8"
+      "tekst": "De maximumsnelheid is 104 kilometer per uur.",
+      "sha256": "027c22c1291d93831e68a998e29281f55780cfcede6a7c8895d1ba942dc315ec"
     },
     {
       "bestand": "limiet-105.m4a",
-      "tekst": "Maximumsnelheid is 105 kilometer per uur.",
-      "sha256": "c048b2a9ff6431eaa256fc156006b0f977321e70af53243ef77ee839350e05ab"
+      "tekst": "De maximumsnelheid is 105 kilometer per uur.",
+      "sha256": "8d0cb2c9470ae68132bf7b5f9585aa2678a6617efb7c58c50477c8fbfbcacc04"
     },
     {
       "bestand": "limiet-106.m4a",
-      "tekst": "Maximumsnelheid is 106 kilometer per uur.",
-      "sha256": "0e9458559f54a1925d76cfb037bce53ed1de55d5ad5beab3b026f614a7a23bbe"
+      "tekst": "De maximumsnelheid is 106 kilometer per uur.",
+      "sha256": "c6540cfeab3fc80a8eeee48b1b3d540b0d2208e16e9beb36c4dbe3c5224f2da8"
     },
     {
       "bestand": "limiet-107.m4a",
-      "tekst": "Maximumsnelheid is 107 kilometer per uur.",
-      "sha256": "4b34dbb09326ae7b49b89ec51fa121a39ec9599e337a46528117177bf9e8e134"
+      "tekst": "De maximumsnelheid is 107 kilometer per uur.",
+      "sha256": "d7692e84329967b50cdc07f6b86958d21af486a6b397e76ad053456c6eb82b38"
     },
     {
       "bestand": "limiet-108.m4a",
-      "tekst": "Maximumsnelheid is 108 kilometer per uur.",
-      "sha256": "fe8e57694abaf4ac842297882af3427781096355b4a3438b2740ab27ed6c7870"
+      "tekst": "De maximumsnelheid is 108 kilometer per uur.",
+      "sha256": "a9dbfb3dbf71e3b384958aa5f18997b76195adefa16ef9072fdbe6d539ac66b9"
     },
     {
       "bestand": "limiet-109.m4a",
-      "tekst": "Maximumsnelheid is 109 kilometer per uur.",
-      "sha256": "1c73f764457f8aa00a9564156c068fdad6a875d73d460c7d4c766343d3e39658"
+      "tekst": "De maximumsnelheid is 109 kilometer per uur.",
+      "sha256": "0074e0038f3269e24bee05f6e65871c37824aa26be64ca920e177ebd2b531384"
     },
     {
       "bestand": "limiet-110.m4a",
-      "tekst": "Maximumsnelheid is 110 kilometer per uur.",
-      "sha256": "ffcc0756ff863bb0fdcf7d957e58dfb23540690e81970f43595a89b83fa2dec0"
+      "tekst": "De maximumsnelheid is 110 kilometer per uur.",
+      "sha256": "45c925a9f8feb34a0eb4f53dda48262a0a6bb6269ef4aa67fa0eff30d05fe11a"
     },
     {
       "bestand": "limiet-111.m4a",
-      "tekst": "Maximumsnelheid is 111 kilometer per uur.",
-      "sha256": "ec765c8c9ab25bdb10d6d81e83a0f9f406ae37f42eded9d49eadc334a1354727"
+      "tekst": "De maximumsnelheid is 111 kilometer per uur.",
+      "sha256": "5d23cc74394f2d8cb4ae10935bf039f2d6ba794294e96cc866f41961bd0f5802"
     },
     {
       "bestand": "limiet-112.m4a",
-      "tekst": "Maximumsnelheid is 112 kilometer per uur.",
-      "sha256": "7a76c2346efb58e0d07210066efa7bf0d2aab2eea746d11b50ede6989c836cc7"
+      "tekst": "De maximumsnelheid is 112 kilometer per uur.",
+      "sha256": "3f51360c908dc4f73f4b6675bccbd580d48ddd5b621dd7875aed6b58c47b7821"
     },
     {
       "bestand": "limiet-113.m4a",
-      "tekst": "Maximumsnelheid is 113 kilometer per uur.",
-      "sha256": "a6163cbaf1cee92cc3647976407fd5519554e19307db9b51e6590935734fae7e"
+      "tekst": "De maximumsnelheid is 113 kilometer per uur.",
+      "sha256": "32ae5d2f2db99a6d928fe99b328bc0c0d61838e7c159ec2fd4d866be478dda1f"
     },
     {
       "bestand": "limiet-114.m4a",
-      "tekst": "Maximumsnelheid is 114 kilometer per uur.",
-      "sha256": "0b91a45a009e06714621593be3be1d85522380b705cc3ac72650356d4d737638"
+      "tekst": "De maximumsnelheid is 114 kilometer per uur.",
+      "sha256": "cf2173f879227e39f969b857482b95bf6e0112828fb76a1b5b63a7cb815a16f3"
     },
     {
       "bestand": "limiet-115.m4a",
-      "tekst": "Maximumsnelheid is 115 kilometer per uur.",
-      "sha256": "7bced76badf42ae29b140a9f48a40110acedc147db8bea6f67fb29717bba420e"
+      "tekst": "De maximumsnelheid is 115 kilometer per uur.",
+      "sha256": "1b21f120e70944756c89bfe4994c2125dd893bb5322824d92c689d15637eb009"
     },
     {
       "bestand": "limiet-116.m4a",
-      "tekst": "Maximumsnelheid is 116 kilometer per uur.",
-      "sha256": "47439b4aa219c8acfdd86caedad8a3a37e90e1b3fcdd8762538abe84e4d62dfa"
+      "tekst": "De maximumsnelheid is 116 kilometer per uur.",
+      "sha256": "9a9bc0d542e56cc620c4e54b18a9d533988f63cec7547e87876b8c29f2a5961f"
     },
     {
       "bestand": "limiet-117.m4a",
-      "tekst": "Maximumsnelheid is 117 kilometer per uur.",
-      "sha256": "64e528332e35fe17b57d40daa9e091f528ad57f3646e30b0226fb4b93412a3dc"
+      "tekst": "De maximumsnelheid is 117 kilometer per uur.",
+      "sha256": "ec04ef700c5321e2cdbb9dc56c46848ef3b6be78c41399799cdd4dda532e7068"
     },
     {
       "bestand": "limiet-118.m4a",
-      "tekst": "Maximumsnelheid is 118 kilometer per uur.",
-      "sha256": "17436a441475e16c948bca3b33f6bcdbda4f1bb66afc7926748ba140b79c558b"
+      "tekst": "De maximumsnelheid is 118 kilometer per uur.",
+      "sha256": "0f3b882d7521f94d9719e0d30b9c079da86573e2b4ac89f0870d9f6838fb7325"
     },
     {
       "bestand": "limiet-119.m4a",
-      "tekst": "Maximumsnelheid is 119 kilometer per uur.",
-      "sha256": "c77d7284fc6b8d7f75bf802cfd4721e0222d751d0511dc99bbc8232b56194915"
+      "tekst": "De maximumsnelheid is 119 kilometer per uur.",
+      "sha256": "c2b4670acc4baf34e6e5aa34a65b332150bfd68782929261f9cc320c42e73d3b"
     },
     {
       "bestand": "limiet-120.m4a",
-      "tekst": "Maximumsnelheid is 120 kilometer per uur.",
-      "sha256": "25f18230bda091357713442de705636dab3097e458eab6ed0ef698dbfeef4dae"
+      "tekst": "De maximumsnelheid is 120 kilometer per uur.",
+      "sha256": "fa130d3fa3a743117e1e1511937868788d2165a3173be6c2dcc98613bc3de525"
     },
     {
       "bestand": "limiet-121.m4a",
-      "tekst": "Maximumsnelheid is 121 kilometer per uur.",
-      "sha256": "352af3a8789159609272abca09dc6989b077e83d5b474e15fdaccbb275662ddf"
+      "tekst": "De maximumsnelheid is 121 kilometer per uur.",
+      "sha256": "126865f5094c583e9836c6892eae2040df2dbdeb3942bb5d3ed0f67536cd2804"
     },
     {
       "bestand": "limiet-122.m4a",
-      "tekst": "Maximumsnelheid is 122 kilometer per uur.",
-      "sha256": "906e11e4bdf11d1380e17af94f4a290ad1107504528848ef1271a77102c072ed"
+      "tekst": "De maximumsnelheid is 122 kilometer per uur.",
+      "sha256": "ed42a04669674ce4f297dbb7a3d152e8e39f1b34c00e385d681ecffada315c77"
     },
     {
       "bestand": "limiet-123.m4a",
-      "tekst": "Maximumsnelheid is 123 kilometer per uur.",
-      "sha256": "a474d3fb503be77e9c26da2774f2560183a21c323dbadf0f16eab358b507b822"
+      "tekst": "De maximumsnelheid is 123 kilometer per uur.",
+      "sha256": "3ba064e1f04611b1d16cb521ef7ebc5607e98e1735ffbb4de3545ee99efe59e7"
     },
     {
       "bestand": "limiet-124.m4a",
-      "tekst": "Maximumsnelheid is 124 kilometer per uur.",
-      "sha256": "a3beca4e58a6b187ca30ce45b44cca82207b4c170343a71da580b8a91cd56c98"
+      "tekst": "De maximumsnelheid is 124 kilometer per uur.",
+      "sha256": "47b3d6f182575c4cd164c7bc2c41a53ed86d1df3aaeafa350635a3a2f2480c09"
     },
     {
       "bestand": "limiet-125.m4a",
-      "tekst": "Maximumsnelheid is 125 kilometer per uur.",
-      "sha256": "53a51598eaba4ee883477408ed6c49086a969fa7ef5818e482cf5a2a37a99395"
+      "tekst": "De maximumsnelheid is 125 kilometer per uur.",
+      "sha256": "982557c804a13eb3ed5dd1cd346d9e1a97fb7a5846d89c80a5d914bc6c5d52b5"
     },
     {
       "bestand": "limiet-126.m4a",
-      "tekst": "Maximumsnelheid is 126 kilometer per uur.",
-      "sha256": "a952f009baf74ad96ddad86866c162ca3655d0f8f30ce33d882561a48fc74093"
+      "tekst": "De maximumsnelheid is 126 kilometer per uur.",
+      "sha256": "dc2098088fff64efa087ee03257bd4b8df75896b486c3fa8d139f1ce08f18a92"
     },
     {
       "bestand": "limiet-127.m4a",
-      "tekst": "Maximumsnelheid is 127 kilometer per uur.",
-      "sha256": "3c2de93807c8a48ee0b16e143eba4fd02ace0e2faaf463b65eb5c5df584e7f91"
+      "tekst": "De maximumsnelheid is 127 kilometer per uur.",
+      "sha256": "9186e5b6a9e94298f71c0d85e72a04b2166177b39dc817c50e975c61659cc202"
     },
     {
       "bestand": "limiet-128.m4a",
-      "tekst": "Maximumsnelheid is 128 kilometer per uur.",
-      "sha256": "3e7a48f76cf2bf0d332114edef6980283ea4841a98976b542a4ecf05c0484014"
+      "tekst": "De maximumsnelheid is 128 kilometer per uur.",
+      "sha256": "7b6a09c60c3cd44187f5f73a943f123f88cd3fe8621255214bd24912a763d269"
     },
     {
       "bestand": "limiet-129.m4a",
-      "tekst": "Maximumsnelheid is 129 kilometer per uur.",
-      "sha256": "4308926a0c9ef3c327c11fcbab21011964e5d28c7b3e574819a2dca1b28f900b"
+      "tekst": "De maximumsnelheid is 129 kilometer per uur.",
+      "sha256": "a4fe9237539e4a26778f36bab5573e0e41d1cc803be6d2ae5d825d92cb410db3"
     },
     {
       "bestand": "limiet-130.m4a",
-      "tekst": "Maximumsnelheid is 130 kilometer per uur.",
-      "sha256": "48d4065849ad0a26cf8a8b9de6becda2cd85315592d1b4c284ae4e7c99286281"
+      "tekst": "De maximumsnelheid is 130 kilometer per uur.",
+      "sha256": "6170063d0ff5078d765eec306181920636146659830da125dd6934cc6c5afad9"
     },
     {
       "bestand": "limiet-140.m4a",
-      "tekst": "Maximumsnelheid is 140 kilometer per uur.",
-      "sha256": "2ecfd32b59efaa18eb198dc05c4c6b2f4f133173076a1728d01468f65a12ba51"
+      "tekst": "De maximumsnelheid is 140 kilometer per uur.",
+      "sha256": "66a28b9256ec4409c89ff13f0312f3990c237dc32e682ea591dba690cd81ea4e"
     },
     {
       "bestand": "limiet-150.m4a",
-      "tekst": "Maximumsnelheid is 150 kilometer per uur.",
-      "sha256": "a6b8df7e8252d83348f5ebb17333e1b6c3efdd46a6dc4f610b9efc7fbb979ae6"
+      "tekst": "De maximumsnelheid is 150 kilometer per uur.",
+      "sha256": "cec7b0c5ef2415d26e999644e550c377d89978042c537705ccf1552ec4c6f3f9"
     },
     {
       "bestand": "limiet-160.m4a",
-      "tekst": "Maximumsnelheid is 160 kilometer per uur.",
-      "sha256": "2b7228ac2f09336ec3ae7ca920f471359871834b9bafc646bff1349fef22c1d1"
+      "tekst": "De maximumsnelheid is 160 kilometer per uur.",
+      "sha256": "17267d61d0163180ac584589b6f5437ccacbd87a2ae1343760302acd10c54e27"
     },
     {
       "bestand": "limiet-180.m4a",
-      "tekst": "Maximumsnelheid is 180 kilometer per uur.",
-      "sha256": "cd2773d2c5cd4854d323dfc642e337f47efdfadc96a66a03f6cbe5c21841fe5a"
+      "tekst": "De maximumsnelheid is 180 kilometer per uur.",
+      "sha256": "3a64a2cc45a0843820bf7b8c93baa91c7dcc7da22f5619821caa873900801530"
     },
     {
       "bestand": "limiet-200.m4a",
-      "tekst": "Maximumsnelheid is 200 kilometer per uur.",
-      "sha256": "77a33417c3e87e2545389cce335d7b4de5b98039e9940bf7588a2666e0c246c7"
+      "tekst": "De maximumsnelheid is 200 kilometer per uur.",
+      "sha256": "147976a784be9deb9e12d2f68591e74d4ea13515b7613055bc0314ef3036bfcb"
+    },
+    {
+      "bestand": "draaggolf.m4a",
+      "tekst": "(onhoorbare ruis, ca. -70 dBFS)",
+      "sha256": "388460214de549c7bf2f894e96115030c9e58738880856c2bc0b7705c2f813d3"
     }
   ]
 }
