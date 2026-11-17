@@ -2,11 +2,11 @@
 // De bepaling van de maximumsnelheid gebeurt in worker.mjs (Valhalla WebAssembly, offline kaart).
 import { GpsSpoor, LimietBevestiging, SpraakWachtrij, pasTijdsregelToe, afstandM, GRENZEN } from './kern/limiet-kern.mjs';
 
-import { BestandsSpeler, bestandVoorTekst, ROUTES } from './kern/audio-bestanden.mjs?v=0.5.1';
-import { PersoonlijkeStem } from './kern/persoonlijke-stem.mjs?v=0.5.1';
+import { BestandsSpeler, bestandVoorTekst, ROUTES } from './kern/audio-bestanden.mjs?v=0.5.2';
+import { PersoonlijkeStem } from './kern/persoonlijke-stem.mjs?v=0.5.2';
 import { ProeflogOpslag } from './kern/proeflog-opslag.mjs?v=0.2';
 
-const VERSIE = 'web 0.5.1 · 16-11-2026';
+const VERSIE = 'web 0.5.2 · 17-11-2026';
 const $ = id => document.getElementById(id);
 
 // ---------- lokaal proeflog (zonder coördinaten of wegnamen) ----------

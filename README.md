@@ -73,3 +73,14 @@ Bewaar een privékopie; bij het wissen van websitegegevens kan ook deze stem ver
 De generator staat alleen in de lokale projectmap `web/tools/maak-xander-pakket.py` en gebruikt
 `maak-xander-stem.swift`. Beide weigeren compacte Xander als vervanging voor de verbeterde stem.
 Dit is geen overstap naar een native iPhone-app. Kaart, GPS en geluidsroute zijn ongewijzigd.
+
+
+### Kortere radio-onderbreking (web 0.5.2, 17 november 2026)
+
+Alleen de timing van de telefoonverbinding is aangepast; route, stem, kaart en limieten niet.
+Ritlog 17-11: de stilte vóór de stem was vooral iOS die het geluid opstart (ca. 1,3 s); onze eigen
+wachttijd voegde daar 0,1-0,2 s aan toe, of de volle 1,5 s als het geluid al liep.
+- Voorbereiding vanaf openen 1,5 s → 1,0 s, met minimaal 0,1 s nadat het geluid weer loopt.
+- Naloop na de laatste zin 1,5 s → 0,5 s. Een direct volgende zin deelt nog steeds de verbinding.
+- Een melding vlak na het sluiten wacht nu eerst tot het sluiten echt klaar is.
+Terugval: `GESPREK_TERUGVAL_0_5_1` in `kern/audio-bestanden.mjs` (1,5 s / 1,5 s).

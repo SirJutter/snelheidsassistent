@@ -1,5 +1,5 @@
 // Persoonlijke opnamen blijven in IndexedDB op dit toestel, buiten de openbare appcache.
-import { OPNAME_LIMIETEN } from './audio-bestanden.mjs?v=0.5.1';
+import { OPNAME_LIMIETEN } from './audio-bestanden.mjs?v=0.5.2';
 
 export const STEM_TEKSTEN = Object.fromEntries([
   ['audio/activatie.m4a', 'Snelheidsassistent is actief.'],

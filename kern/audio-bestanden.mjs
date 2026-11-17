@@ -13,10 +13,19 @@ export const DRAAGGOLF = 'audio/draaggolf.m4a';
 export const ROUTES = ['gesprek', 'microfoon', 'media'];
 /** Media-route: zo lang loopt de stroom minimaal vóór de eerste zin. */
 export const VOORBEREIDING_MS = 3000;
-/** Handsfree-route: wachttijd na openen (native app: 1 s). */
-export const GESPREK_VOORBEREIDING_MS = 1500;
-/** Handsfree-route: zo lang blijft de verbinding open voor een direct volgende zin. */
-export const GESPREK_NALOOP_MS = 1500;
+/** Handsfree-route: minimale wachttijd vanaf openen (native app: 1 s). Web 0.5.1: 1500. */
+export const GESPREK_VOORBEREIDING_MS = 1000;
+/** Handsfree-route: minimaal zo lang tussen 'Web Audio draait weer' en de zin. In het ritlog van
+ *  17-11 begon de stem 109-190 ms na dat moment en was hoorbaar; de Xander-opnamen hebben zelf geen
+ *  stilte vooraf, dus deze marge niet weglaten zonder fysieke proef. */
+export const GESPREK_NA_START_MS = 100;
+/** Handsfree-route: zo lang blijft de verbinding open na de laatste zin (direct volgende zin deelt
+ *  de verbinding; ook marge voor de uitvoerbuffer naar de auto). Web 0.5.1: 1500. */
+export const GESPREK_NALOOP_MS = 500;
+/** Bewezen werkende timing van web 0.5.1 (17-11-2026, Opel, gewone radio): terugval. */
+export const GESPREK_TERUGVAL_0_5_1 = Object.freeze({ gesprekVoorbereidingMs: 1500, gesprekNaStartMs: 0, gesprekNaloopMs: 1500 });
+/** Zo lang hooguit wachten tot een lopende suspend() klaar is voordat de verbinding weer opent. */
+const PAUZE_AFWACHTEN_MS = 1000;
 
 export function bestandVoorTekst(tekst) {
   if (tekst === 'Snelheidsassistent is actief.') return 'audio/activatie.m4a';
@@ -44,16 +53,18 @@ export class BestandsSpeler {
     vraagMicrofoon = c => globalThis.navigator.mediaDevices.getUserMedia(c),
     audioSessie = () => globalThis.navigator?.audioSession,
     log = () => {}, nu = () => Date.now(), timeoutMs = 15000, voorbereidingMs = VOORBEREIDING_MS,
-    gesprekVoorbereidingMs = GESPREK_VOORBEREIDING_MS, gesprekNaloopMs = GESPREK_NALOOP_MS, route = 'media' } = {}) {
+    gesprekVoorbereidingMs = GESPREK_VOORBEREIDING_MS, gesprekNaStartMs = GESPREK_NA_START_MS, gesprekNaloopMs = GESPREK_NALOOP_MS,
+    route = 'media' } = {}) {
     this.audio = maakAudio(); this.log = log; this.nu = nu; this.timeoutMs = timeoutMs; this.voorbereidingMs = voorbereidingMs;
-    this.gesprekVoorbereidingMs = gesprekVoorbereidingMs; this.gesprekNaloopMs = gesprekNaloopMs;
+    this.gesprekVoorbereidingMs = gesprekVoorbereidingMs; this.gesprekNaStartMs = gesprekNaStartMs; this.gesprekNaloopMs = gesprekNaloopMs;
     this.maakContext = maakContext; this.haal = haal; this.haalElementBestand = haalElementBestand; this.mediaSession = mediaSession;
     this.vraagMicrofoon = vraagMicrofoon; this.audioSessie = audioSessie; this.route = route;
     this.audio.preload = 'auto'; this.audio.volume = 1; this.audio.muted = false;
     this.ctx = null; this.buffers = new Map();
     this.ronde = 0; this.gereed = Promise.resolve(false); this.draaggolfSinds = 0;
     this.eigenPauze = false; this.elementSpraak = false; this.annuleer = null; this.annuleerWacht = null;
-    this.gesprekOpen = false; this.gesprekSinds = 0; this.microfoon = null; this.sluitTimer = null;
+    this.gesprekOpen = false; this.gesprekSinds = 0; this.gesprekKlaar = 0; this.laatsteEinde = 0;
+    this.microfoon = null; this.sluitTimer = null; this.pauzeren = null;
     for (const naam of ['playing', 'pause', 'waiting', 'stalled', 'error']) {
       this.audio.addEventListener?.(naam, () => this.#draaggolfGebeurtenis(naam));
     }
@@ -83,7 +94,7 @@ export class BestandsSpeler {
     if (this.route === 'media') { element = this.#startDraaggolf(); this.#zetMediaSessie('playing'); }
     else {
       // Alleen toestemming voor het element vastleggen (terugval en latere media-route); geen stroom.
-      this.#sluitGesprek(); this.audio.pause(); this.draaggolfSinds = 0; this.#zetMediaSessie('paused');
+      this.#sluitGesprek('ontgrendel'); this.audio.pause(); this.draaggolfSinds = 0; this.#zetMediaSessie('paused');
       element = this.#ontgrendelElement();
     }
     this.gereed = Promise.all([element, context]).then(([e, c]) => {
@@ -108,11 +119,11 @@ export class BestandsSpeler {
   }
 
   /** Handsfree-verbinding direct loslaten (radio terug). */
-  sluitGesprek() { this.#sluitGesprek(); }
+  sluitGesprek() { this.#sluitGesprek('direct'); }
 
   stop() {
     this.#annuleerLopend();
-    this.#sluitGesprek();
+    this.#sluitGesprek('uit');
     this.eigenPauze = true; this.audio.pause(); this.draaggolfSinds = 0;
     this.gereed = Promise.resolve(false);
     this.#zetMediaSessie('paused');
@@ -134,48 +145,86 @@ export class BestandsSpeler {
   }
 
   // ---------- handsfree-route ----------
+  // Stilte vóór de stem = iOS/WebKit-opstart (ctx.resume met play-and-record, ritlog 17-11: 1,3-1,4 s)
+  // + bewuste wachttijd (wat daarna nog ontbreekt tot GESPREK_VOORBEREIDING_MS / GESPREK_NA_START_MS).
+  // Laden/decoderen loopt parallel en is gecachet. Fysieke Bluetooth-vertraging is niet zichtbaar.
   async #spreekGesprek(bestand, tekst, actueel) {
+    const ronde = this.ronde;
     clearTimeout(this.sluitTimer); this.sluitTimer = null;
     const buffer = this.ctx ? this.#laadBuffer(bestand) : Promise.resolve(null);
     if (!this.gesprekOpen) {
-      this.#zetType('play-and-record');
-      this.gesprekOpen = true; this.gesprekSinds = this.nu();
-      if (this.route === 'microfoon') {
-        try {
-          const stroom = await this.vraagMicrofoon({ audio: true });
-          if (!actueel()) { for (const t of stroom.getTracks()) t.stop(); this.#sluitGesprek(); return 'afgebroken'; }
-          this.microfoon = stroom; this.gesprekSinds = this.nu(); this.log('microfoon_aan');
-        } catch (e) {
-          this.log('microfoon_fout', { naam: e?.name ?? null, bericht: e?.message ?? null });
-          this.#sluitGesprek(); return actueel() ? 'fout' : 'afgebroken';
-        }
-      }
-      await this.#hervatContext();
-      this.log('gesprek_geopend', this.toestand());
+      const open = await this.#openGesprek(ronde, actueel);
+      if (open !== 'open') return open;
     }
-    const wacht = Math.max(0, this.gesprekSinds + this.gesprekVoorbereidingMs - this.nu());
-    if (!await this.#wacht(wacht) || !actueel()) { this.#planSluiten(); return 'afgebroken'; }
+    const nu = this.nu();
+    const wacht = Math.max(0, this.gesprekSinds + this.gesprekVoorbereidingMs - nu, this.gesprekKlaar + this.gesprekNaStartMs - nu);
+    if (!await this.#wacht(wacht) || !actueel()) { this.#planSluiten(ronde); return 'afgebroken'; }
     const geladen = this.ctx?.state === 'running' ? await buffer : null;
-    if (!actueel()) { this.#planSluiten(); return 'afgebroken'; }
+    if (!actueel()) { this.#planSluiten(ronde); return 'afgebroken'; }
     const uitkomst = geladen ? await this.#speelBuffer(geladen, bestand, tekst, actueel) : await this.#speelViaElement(bestand, tekst, actueel);
-    if (this.gesprekOpen) this.#planSluiten();
+    if (ronde === this.ronde) this.laatsteEinde = this.nu();
+    this.#planSluiten(ronde);
     return uitkomst;
   }
 
-  #planSluiten() {
-    clearTimeout(this.sluitTimer);
-    this.sluitTimer = setTimeout(() => { this.sluitTimer = null; this.#sluitGesprek(); }, this.gesprekNaloopMs);
+  /** 'open' | 'fout' | 'afgebroken'. Late afronding na Uit/nieuwe ronde raakt een nieuwere verbinding niet. */
+  async #openGesprek(ronde, actueel) {
+    const eigen = () => ronde === this.ronde;
+    this.#zetType('play-and-record');
+    this.gesprekOpen = true; this.gesprekSinds = this.nu(); this.gesprekKlaar = 0; this.laatsteEinde = 0;
+    if (this.route === 'microfoon') {
+      try {
+        const stroom = await this.vraagMicrofoon({ audio: true });
+        if (!eigen() || !actueel()) { for (const t of stroom.getTracks()) t.stop(); if (eigen()) this.#sluitGesprek('niet_actueel'); return 'afgebroken'; }
+        this.microfoon = stroom; this.gesprekSinds = this.nu(); this.log('microfoon_aan');
+      } catch (e) {
+        this.log('microfoon_fout', { naam: e?.name ?? null, bericht: e?.message ?? null });
+        if (!eigen()) return 'afgebroken';
+        this.#sluitGesprek('microfoon_fout'); return actueel() ? 'fout' : 'afgebroken';
+      }
+    }
+    await this.#hervatContext();
+    if (!eigen()) {
+      // Uit tijdens het opstarten: een late resume() mag het geluid niet laten doorlopen.
+      if (!this.gesprekOpen && this.route !== 'media') this.#pauzeerContext();
+      return 'afgebroken';
+    }
+    this.gesprekKlaar = this.nu();
+    this.log('gesprek_geopend', {
+      hervatten_ms: this.gesprekKlaar - this.gesprekSinds, voorbereiding_ms: this.gesprekVoorbereidingMs,
+      na_start_ms: this.gesprekNaStartMs, naloop_ms: this.gesprekNaloopMs,
+      // Door de browser gemeld (vaak null in Safari); geen gemeten Bluetooth-vertraging.
+      basis_latentie_s: rond(this.ctx?.baseLatency, 3), uitvoer_latentie_s: rond(this.ctx?.outputLatency, 3), ...this.toestand(),
+    });
+    return 'open';
   }
 
-  #sluitGesprek() {
+  /** Alleen de eigenaar (huidige ronde) van een open verbinding plant het sluiten. */
+  #planSluiten(ronde) {
+    if (ronde !== this.ronde || !this.gesprekOpen) return;
+    clearTimeout(this.sluitTimer);
+    this.sluitTimer = setTimeout(() => { this.sluitTimer = null; this.#sluitGesprek('naloop'); }, this.gesprekNaloopMs);
+  }
+
+  #sluitGesprek(reden) {
     clearTimeout(this.sluitTimer); this.sluitTimer = null;
     if (this.microfoon) { for (const t of this.microfoon.getTracks()) t.stop(); this.microfoon = null; this.log('microfoon_uit'); }
     if (!this.gesprekOpen) return;
     this.gesprekOpen = false;
     // Geen lopende Web Audio meer, dan geeft WebKit de audiosessie vrij en eindigt de handsfree-verbinding.
-    try { Promise.resolve(this.ctx?.suspend?.()).catch(() => {}); } catch { /* al gesloten */ }
+    this.#pauzeerContext();
     this.#zetType('playback');
-    this.log('gesprek_gesloten', this.toestand());
+    const nu = this.nu();
+    this.log('gesprek_gesloten', { reden, open_ms: nu - this.gesprekSinds, na_laatste_zin_ms: this.laatsteEinde ? nu - this.laatsteEinde : null, ...this.toestand() });
+  }
+
+  /** suspend() is in WebKit asynchroon (ritlog: tot 0,8 s 'running' na de aanroep); onthouden zodat
+   *  een melding vlak na het sluiten eerst die pauze afwacht en daarna echt hervat. */
+  #pauzeerContext() {
+    let p;
+    try { p = this.ctx?.suspend?.(); } catch { return; /* al gesloten */ }
+    if (!p) return;
+    const pauze = this.pauzeren = Promise.resolve(p).catch(() => {}).then(() => { if (this.pauzeren === pauze) this.pauzeren = null; });
   }
 
   #zetType(type) {
@@ -199,7 +248,12 @@ export class BestandsSpeler {
   }
 
   async #hervatContext() {
-    if (!this.ctx || this.ctx.state === 'running') return;
+    if (!this.ctx) return;
+    if (this.pauzeren) {
+      // Anders meldt WebKit nog 'running', slaan we resume() over en zet de late suspend() de zin stil.
+      let t; await Promise.race([this.pauzeren, new Promise(r => { t = setTimeout(r, PAUZE_AFWACHTEN_MS); })]); clearTimeout(t);
+    }
+    if (this.ctx.state === 'running') return;
     try { await this.ctx.resume(); } catch (e) { this.log('webaudio_hervatten_fout', { naam: e.name, bericht: e.message }); }
   }
 
